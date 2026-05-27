@@ -1,0 +1,1102 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Isabel & Joey's Wedding</title>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300;1,400&family=Jost:wght@300;400;500&display=swap" rel="stylesheet" />
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: 'Jost', sans-serif;
+      background: #f0ebe3;
+      color: #4a3728;
+      overflow-x: hidden;
+    }
+
+    /* ── HERO ── */
+    .hero {
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: #f0ebe3;
+      text-align: center;
+      padding: 60px 24px;
+    }
+
+    .hero-content { display: flex; flex-direction: column; align-items: center; gap: 0; }
+
+    .couple-names {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 56px;
+      font-weight: 300;
+      font-style: italic;
+      color: #5c3d2e;
+      letter-spacing: 0.04em;
+      line-height: 1.1;
+      margin-bottom: 28px;
+    }
+
+    .ampersand { color: #8b6555; margin: 0 8px; }
+
+    .hero-date {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 46px;
+      font-weight: 300;
+      letter-spacing: 0.12em;
+      color: #5c3d2e;
+      text-transform: uppercase;
+      margin-bottom: 14px;
+    }
+
+    .hero-location {
+      font-family: 'Jost', sans-serif;
+      font-size: 13px;
+      letter-spacing: 0.18em;
+      color: #8b7060;
+      margin-bottom: 40px;
+    }
+
+    .countdown {
+      display: flex;
+      gap: 36px;
+      align-items: baseline;
+    }
+
+    .countdown-unit {
+      display: flex;
+      align-items: baseline;
+      gap: 6px;
+    }
+
+    .countdown-num {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 28px;
+      font-weight: 300;
+      color: #5c3d2e;
+      min-width: 32px;
+      text-align: right;
+    }
+
+    .countdown-label {
+      font-family: 'Jost', sans-serif;
+      font-size: 12px;
+      letter-spacing: 0.08em;
+      color: #8b7060;
+      font-weight: 300;
+    }
+
+    /* ── DOT NAV ── */
+    .dot-nav {
+      position: fixed;
+      right: 18px;
+      top: 50%;
+      transform: translateY(-50%);
+      z-index: 200;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    .dot-nav a {
+      display: block;
+      width: 7px; height: 7px;
+      border-radius: 50%;
+      background: #c9bfb0;
+      transition: background 0.3s, transform 0.3s;
+      text-decoration: none;
+    }
+
+    .dot-nav a.active {
+      background: #8b7060;
+      transform: scale(1.4);
+    }
+
+    /* ── SECTIONS ── */
+    .section {
+      padding: 72px 32px 80px;
+      max-width: 680px;
+      margin: 0 auto;
+      opacity: 0;
+      transform: translateY(36px);
+      transition: opacity 0.65s ease, transform 0.65s ease;
+    }
+
+    .section.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    .section-divider-wrap {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      margin-bottom: 36px;
+    }
+
+    .section-title {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 32px;
+      font-weight: 300;
+      font-style: italic;
+      color: #5c3d2e;
+      white-space: nowrap;
+    }
+
+    .section-line {
+      flex: 1;
+      height: 1px;
+      background: #d9cfc4;
+    }
+
+    .section-sep {
+      width: 60px;
+      height: 1px;
+      background: #d9cfc4;
+      margin: 0 auto;
+    }
+
+    /* ── HOME ── */
+    .home-text {
+      font-size: 15px;
+      line-height: 1.95;
+      color: #6b5040;
+    }
+
+    .home-text em {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 20px;
+      font-style: italic;
+      color: #8b7060;
+      display: block;
+      margin-top: 24px;
+    }
+
+    /* ── EVENTS ── */
+    .event-date-header {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 13px;
+      letter-spacing: 0.25em;
+      text-transform: uppercase;
+      color: #8b7060;
+      text-align: center;
+      margin-bottom: 24px;
+    }
+
+    .event-card {
+      background: #faf7f4;
+      border: 1px solid #d9cfc4;
+      border-radius: 8px;
+      padding: 22px 26px;
+      margin-bottom: 16px;
+      transition: border-color 0.2s;
+    }
+
+    .event-card:hover { border-color: #8b7060; }
+
+    .event-card-ceremony {
+      background-image: url('images/seminary_parish.jpg');
+      background-size: cover;
+      background-position: center;
+      border: none;
+      padding: 0;
+      overflow: hidden;
+      position: relative;
+      min-height: 280px;
+    }
+
+    .event-card-ceremony:hover { border-color: transparent; }
+
+    .event-card-reception {
+      background-image: url('images/timmy.jpg');
+      background-size: cover;
+      background-position: center;
+      border: none;
+      padding: 0;
+      overflow: hidden;
+      position: relative;
+      min-height: 280px;
+    }
+
+    .event-card-reception:hover { border-color: transparent; }
+
+    .event-card-overlay {
+      background: linear-gradient(to bottom, rgba(40,20,10,0.45) 0%, rgba(40,20,10,0.72) 100%);
+      padding: 22px 26px;
+      width: 100%;
+      height: 100%;
+    }
+
+    .event-label {
+      font-size: 10px;
+      letter-spacing: 0.22em;
+      text-transform: uppercase;
+      color: #8b7060;
+      margin-bottom: 6px;
+    }
+
+    .event-name {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 22px;
+      font-weight: 300;
+      color: #5c3d2e;
+      margin-bottom: 6px;
+    }
+
+    .event-detail {
+      font-size: 13px;
+      color: #7a6050;
+      line-height: 1.75;
+    }
+
+    .event-link {
+      color: #8b7060;
+      text-decoration: underline;
+      text-underline-offset: 3px;
+      font-style: italic;
+      font-size: 12px;
+    }
+
+    .event-note {
+      font-size: 12px;
+      color: #9a8070;
+      font-style: italic;
+      display: block;
+    }
+
+    .event-btn-row {
+      display: flex;
+      gap: 10px;
+      margin-top: 18px;
+    }
+
+    .event-btn {
+      flex: 1;
+      padding: 11px;
+      background: #5c3d2e;
+      color: #f0ebe3;
+      text-align: center;
+      border-radius: 6px;
+      font-family: 'Jost', sans-serif;
+      font-size: 11px;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      text-decoration: none;
+      transition: background 0.2s;
+    }
+
+    .event-btn:hover { background: #7a5040; }
+
+    .event-btn-outline {
+      background: transparent;
+      border: 1px solid #5c3d2e;
+      color: #5c3d2e;
+    }
+
+    .event-btn-outline:hover { background: #ede6de; }
+
+    /* ── TRAVEL ── */
+    .travel-card {
+      background: #faf7f4;
+      border: 1px solid #d9cfc4;
+      border-radius: 8px;
+      padding: 18px 22px;
+      margin-bottom: 14px;
+      transition: border-color 0.2s;
+    }
+
+    .travel-card:hover { border-color: #8b7060; }
+
+    .travel-label {
+      font-size: 10px;
+      letter-spacing: 0.22em;
+      text-transform: uppercase;
+      color: #8b7060;
+      margin-bottom: 6px;
+    }
+
+    .travel-name {
+      font-size: 15px;
+      font-weight: 500;
+      color: #5c3d2e;
+      margin-bottom: 4px;
+    }
+
+    .travel-detail {
+      font-size: 13px;
+      color: #7a6050;
+      line-height: 1.65;
+    }
+
+    /* ── REGISTRY ── */
+    .registry-intro {
+      font-size: 13px;
+      color: #7a6050;
+      margin-bottom: 24px;
+      line-height: 1.75;
+    }
+
+    .registry-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 14px;
+    }
+
+    .registry-card {
+      background: #faf7f4;
+      border: 1px solid #d9cfc4;
+      border-radius: 8px;
+      padding: 24px 20px;
+      text-align: center;
+      cursor: pointer;
+      transition: border-color 0.2s, transform 0.2s;
+    }
+
+    .registry-card:hover {
+      border-color: #8b7060;
+      transform: translateY(-2px);
+    }
+
+    .registry-store {
+      font-size: 13px;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: #5c3d2e;
+      font-weight: 500;
+    }
+
+    .registry-sub {
+      font-size: 12px;
+      color: #9a8070;
+      margin-top: 4px;
+    }
+
+    /* ── WEDDING PARTY ── */
+    .party-group {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 36px;
+      justify-content: flex-start;
+      margin-bottom: 8px;
+    }
+
+    .party-member {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+      width: 200px;
+    }
+
+    .party-photo {
+      width: 200px;
+      height: 200px;
+      border-radius: 50%;
+      background: #e4dbd2;
+      border: 2px dashed #b0a090;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+      overflow: hidden;
+      cursor: pointer;
+      position: relative;
+      transition: border-color 0.2s;
+      margin-bottom: 20px;
+    }
+
+    .party-photo:hover { border-color: #8b7060; }
+
+    .party-photo svg { opacity: 0.4; }
+
+    .party-photo img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      border-radius: 50%;
+      display: none;
+    }
+
+    .party-photo input[type="file"] {
+      position: absolute;
+      inset: 0;
+      opacity: 0;
+      cursor: pointer;
+      width: 100%;
+      height: 100%;
+    }
+
+    .party-name {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 20px;
+      font-weight: 400;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: #5c3d2e;
+      margin-bottom: 6px;
+      line-height: 1.3;
+    }
+
+    .party-role {
+      font-size: 14px;
+      letter-spacing: 0.15em;
+      color: #8b7060;
+    }
+
+    .party-group-label {
+      font-size: 10px;
+      letter-spacing: 0.22em;
+      text-transform: uppercase;
+      color: #8b7060;
+      margin: 28px 0 14px;
+      padding-bottom: 8px;
+      border-bottom: 1px solid #d9cfc4;
+    }
+
+    .party-group-label:first-of-type { margin-top: 0; }
+
+    /* ── GALLERY ── */
+    .gallery-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 8px;
+    }
+
+    .gallery-cell {
+      aspect-ratio: 1;
+      background: #e4dbd2;
+      border-radius: 4px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 11px;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: #a89080;
+    }
+
+    /* ── FAQs ── */
+    .faq-item {
+      border-bottom: 1px solid #d9cfc4;
+      padding: 18px 0;
+    }
+
+    .faq-q {
+      font-size: 14px;
+      font-weight: 500;
+      color: #5c3d2e;
+      margin-bottom: 8px;
+    }
+
+    .faq-a {
+      font-size: 13px;
+      color: #7a6050;
+      line-height: 1.75;
+    }
+
+    /* ── RSVP ── */
+    .rsvp-form { max-width: 520px; }
+
+    .rsvp-label {
+      font-size: 11px;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: #8b7060;
+      display: block;
+      margin-bottom: 8px;
+    }
+
+    .rsvp-hint {
+      font-size: 12px;
+      color: #9a8070;
+      margin-bottom: 20px;
+      font-style: italic;
+    }
+
+    .rsvp-input {
+      width: 100%;
+      padding: 12px 16px;
+      border: 1px solid #d9cfc4;
+      border-radius: 6px;
+      background: #faf7f4;
+      font-family: 'Jost', sans-serif;
+      font-size: 14px;
+      color: #5c3d2e;
+      outline: none;
+      transition: border-color 0.2s;
+      margin-bottom: 20px;
+      appearance: none;
+    }
+
+    .rsvp-input:focus { border-color: #8b7060; }
+
+    .rsvp-btn {
+      width: 100%;
+      padding: 13px;
+      background: #5c3d2e;
+      color: #f0ebe3;
+      border: none;
+      border-radius: 6px;
+      font-family: 'Jost', sans-serif;
+      font-size: 12px;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      cursor: pointer;
+      transition: background 0.2s, transform 0.15s;
+    }
+
+    .rsvp-btn:hover { background: #7a5040; }
+    .rsvp-btn:active { transform: scale(0.98); }
+
+    .rsvp-success {
+      display: none;
+      text-align: center;
+      padding: 48px 0;
+    }
+
+    .rsvp-success .check {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 48px;
+      font-style: italic;
+      color: #8b7060;
+    }
+
+    .rsvp-success p {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 24px;
+      font-style: italic;
+      color: #5c3d2e;
+      margin-top: 12px;
+    }
+
+    /* ── MUSIC BUTTON ── */
+    .music-btn {
+      position: fixed;
+      bottom: 24px;
+      left: 24px;
+      z-index: 300;
+      background: #faf7f4;
+      border: 1px solid #d9cfc4;
+      border-radius: 50%;
+      width: 44px;
+      height: 44px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      transition: border-color 0.2s, box-shadow 0.2s;
+      box-shadow: 0 2px 8px rgba(92,61,46,0.10);
+    }
+
+    .music-btn:hover {
+      border-color: #8b7060;
+      box-shadow: 0 4px 14px rgba(92,61,46,0.18);
+    }
+
+    .music-btn.playing {
+      border-color: #8b7060;
+      background: #f5ede6;
+    }
+
+    /* ── FOOTER ── */
+    footer {
+      text-align: center;
+      padding: 36px;
+      font-size: 11px;
+      letter-spacing: 0.18em;
+      color: #9a8070;
+      border-top: 1px solid #d9cfc4;
+      text-transform: uppercase;
+    }
+
+    @media (max-width: 480px) {
+      .couple-names { font-size: 38px; }
+      .hero-date { font-size: 30px; }
+      .countdown { gap: 20px; }
+      .countdown-num { font-size: 22px; }
+      .section { padding: 52px 20px 60px; }
+      .dot-nav { right: 10px; }
+      .party-member { width: 140px; }
+      .party-photo { width: 140px; height: 140px; }
+      .music-btn { bottom: 16px; left: 16px; width: 40px; height: 40px; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- DOT NAV -->
+  <nav class="dot-nav" id="dotNav">
+    <a href="#home" title="Home"></a>
+    <a href="#schedule" title="Schedule"></a>
+    <a href="#travel" title="Travel"></a>
+    <a href="#registry" title="Registry"></a>
+    <a href="#party" title="Wedding Party"></a>
+    <a href="#gallery" title="Gallery"></a>
+    <a href="#faqs" title="FAQs"></a>
+    <a href="#rsvp" title="RSVP"></a>
+  </nav>
+
+  <!-- MUSIC BUTTON -->
+  <div class="music-btn" onclick="toggleMusic()" id="musicBtn" title="Toggle music">
+    <svg id="musicIcon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#7a6050" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+      <polygon points="5 3 19 12 5 21 5 3"/>
+    </svg>
+  </div>
+
+  <!-- BACKGROUND AUDIO -->
+  <!-- Put your MP3 file in a "music" folder next to index.html, e.g. music/song.mp3 -->
+  <audio id="bgMusic" loop>
+    <source src="music/song.mp3" type="audio/mpeg">
+  </audio>
+
+  <!-- HERO -->
+  <div class="hero">
+    <div class="hero-content">
+      <div class="couple-names">Isabel <span class="ampersand">&</span> Joey</div>
+      <div class="hero-date">July 18, 2026</div>
+      <div class="hero-location">Antipolo, Rizal, Philippines</div>
+      <div class="countdown">
+        <div class="countdown-unit">
+          <span class="countdown-num" id="cd-days">00</span>
+          <span class="countdown-label">days</span>
+        </div>
+        <div class="countdown-unit">
+          <span class="countdown-num" id="cd-hours">00</span>
+          <span class="countdown-label">hours</span>
+        </div>
+        <div class="countdown-unit">
+          <span class="countdown-num" id="cd-mins">00</span>
+          <span class="countdown-label">minutes</span>
+        </div>
+        <div class="countdown-unit">
+          <span class="countdown-num" id="cd-secs">00</span>
+          <span class="countdown-label">seconds</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- HOME -->
+  <section id="home" class="section">
+    <div class="section-divider-wrap">
+      <div class="section-title">Welcome</div>
+      <div class="section-line"></div>
+    </div>
+    <p class="home-text">
+      We are so grateful to share this beautiful milestone with the people we love most.
+      We hope you will join us in celebrating our union surrounded by joy, laughter, and love.<br><br>
+      Please scroll through to find all the details about our special day —
+      from schedule and travel tips to registry and RSVPs.
+      <em>"For all the days along the way."</em>
+    </p>
+  </section>
+
+  <div class="section-sep"></div>
+
+  <!-- SCHEDULE -->
+  <section id="schedule" class="section">
+    <div class="section-divider-wrap">
+      <div class="section-title">Schedule</div>
+      <div class="section-line"></div>
+    </div>
+    <div class="event-date-header">Saturday, July 18, 2026</div>
+    <div class="event-card event-card-ceremony">
+      <div class="event-card-overlay">
+        <div class="event-label" style="color:#e8ddd4;">Ceremony</div>
+        <div class="event-name" style="color:#fff;">Wedding Ceremony</div>
+        <div class="event-detail" style="color:#e8ddd4;">
+          11:00 AM &ndash; 1:00 PM<br><br>
+          Seminary Parish of Our Lady of the Rosary of Manaoag in Antipolo<br>
+          <a class="event-link" style="color:#e8ddd4;" href="https://maps.google.com/?q=Sitio+Oreta,+Antipolo,+Rizal+1870,+Philippines" target="_blank">Sitio Oreta, Antipolo, Rizal 1870, Philippines</a><br><br>
+          <span class="event-note" style="color:#d4c9bf;">Please make sure to have a cover-up. Guests who wear revealing clothes will not be allowed inside the church.</span>
+        </div>
+        <div class="event-btn-row">
+          <a class="event-btn" style="background:rgba(255,255,255,0.15);border:1px solid rgba(255,255,255,0.6);color:#fff;backdrop-filter:blur(4px);" href="https://maps.google.com/?q=Sitio+Oreta,+Antipolo,+Rizal+1870,+Philippines" target="_blank">Map</a>
+          <a class="event-btn event-btn-outline" style="background:transparent;border:1px solid rgba(255,255,255,0.6);color:#fff;" href="https://calendar.google.com/calendar/render?action=TEMPLATE&text=Isabel+%26+Joey+Wedding+Ceremony&dates=20260718T030000Z/20260718T050000Z&location=Sitio+Oreta,+Antipolo,+Rizal+1870,+Philippines" target="_blank">Add to Calendar</a>
+        </div>
+      </div>
+    </div>
+    <div class="event-card event-card-reception">
+      <div class="event-card-overlay">
+        <div class="event-label" style="color:#e8ddd4;">Reception</div>
+        <div class="event-name" style="color:#fff;">Reception</div>
+        <div class="event-detail" style="color:#e8ddd4;">
+          3:00 PM &ndash; 11:00 PM<br><br>
+          Timmy in the Woods<br>
+          <a class="event-link" style="color:#e8ddd4;" href="https://maps.google.com/?q=3+Mount+Everest+Avenue,+Golden+Hills+Subdivision,+Antipolo,+Rizal+1870,+Philippines" target="_blank">3 Mount Everest Avenue, Golden Hills Subdivision, Antipolo, Rizal 1870, Philippines</a><br><br>
+          <span class="event-note" style="color:#d4c9bf;">Please see attire guide for attire suggestions.</span>
+        </div>
+        <div class="event-btn-row">
+          <a class="event-btn" style="background:rgba(255,255,255,0.15);border:1px solid rgba(255,255,255,0.6);color:#fff;backdrop-filter:blur(4px);" href="https://maps.google.com/?q=3+Mount+Everest+Avenue,+Golden+Hills+Subdivision,+Antipolo,+Rizal+1870,+Philippines" target="_blank">Map</a>
+          <a class="event-btn event-btn-outline" style="background:transparent;border:1px solid rgba(255,255,255,0.6);color:#fff;" href="https://calendar.google.com/calendar/render?action=TEMPLATE&text=Isabel+%26+Joey+Wedding+Reception&dates=20260718T070000Z/20260718T150000Z&location=3+Mount+Everest+Avenue,+Golden+Hills+Subdivision,+Antipolo,+Rizal+1870" target="_blank">Add to Calendar</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <div class="section-sep"></div>
+
+  <!-- TRAVEL -->
+  <section id="travel" class="section">
+    <div class="section-divider-wrap">
+      <div class="section-title">Travel</div>
+      <div class="section-line"></div>
+    </div>
+    <div class="travel-card" style="text-align:center;">
+      <svg width="48" height="48" viewBox="0 0 48 48" fill="none" stroke="#7a6050" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" style="margin-bottom:12px;"><polyline points="6,22 24,6 42,22"/><rect x="10" y="22" width="28" height="20" rx="1"/><rect x="18" y="30" width="12" height="12" rx="1"/><line x1="10" y1="22" x2="10" y2="42"/><line x1="38" y1="22" x2="38" y2="42"/></svg>
+      <div class="travel-label">House or Rental</div>
+      <div class="travel-name">Tobi's Escape</div>
+      <div class="travel-detail">Ponderosa Heights Lt1 Blk 5, Antipolo, Calabarzon 1870, Philippines</div>
+      <div class="event-btn-row">
+        <a class="event-btn" href="https://maps.google.com/?q=Ponderosa+Heights+Lt1+Blk+5+Antipolo+Calabarzon+1870+Philippines" target="_blank">Map</a>
+      </div>
+    </div>
+  </section>
+
+  <div class="section-sep"></div>
+
+  <!-- REGISTRY -->
+  <section id="registry" class="section">
+    <div class="section-divider-wrap">
+      <div class="section-title">Registry</div>
+      <div class="section-line"></div>
+    </div>
+    <p class="registry-intro">
+      Your presence is the greatest gift of all. But if you would like to give, we have registered at a few of our favorite places.
+    </p>
+    <div class="registry-grid">
+      <div class="registry-card">
+        <div class="registry-store">Rustan's</div>
+        <div class="registry-sub">Home &amp; Lifestyle</div>
+      </div>
+      <div class="registry-card">
+        <div class="registry-store">S&amp;R Home</div>
+        <div class="registry-sub">Kitchen &amp; Living</div>
+      </div>
+      <div class="registry-card">
+        <div class="registry-store">Zola</div>
+        <div class="registry-sub">Online Registry</div>
+      </div>
+      <div class="registry-card">
+        <div class="registry-store">Cash Fund</div>
+        <div class="registry-sub">Honeymoon &amp; Beyond</div>
+      </div>
+    </div>
+  </section>
+
+  <div class="section-sep"></div>
+
+  <!-- WEDDING PARTY -->
+  <section id="party" class="section">
+    <div class="section-divider-wrap">
+      <div class="section-title">Wedding Party</div>
+      <div class="section-line"></div>
+    </div>
+
+    <div class="party-group-label">The Couple</div>
+    <div class="party-group">
+    <div class="party-member">
+      <div class="party-photo" onclick="this.querySelector('input').click()"><svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="#7a6050" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"/><circle cx="12" cy="13" r="4"/></svg><img alt="photo"><input type="file" accept="image/*" onchange="previewPhoto(this)"></div>
+      <div class="party-name">Maria Isabel Ogrimina</div>
+      <div class="party-role">Bride</div>
+    </div>
+    <div class="party-member">
+      <div class="party-photo" onclick="this.querySelector('input').click()"><svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="#7a6050" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"/><circle cx="12" cy="13" r="4"/></svg><img alt="photo"><input type="file" accept="image/*" onchange="previewPhoto(this)"></div>
+      <div class="party-name">Joey Clemen</div>
+      <div class="party-role">Groom</div>
+    </div>
+    </div>
+
+    <div class="party-group-label">Principal Sponsors</div>
+    <div class="party-group">
+    <div class="party-member">
+      <div class="party-photo" onclick="this.querySelector('input').click()"><svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="#7a6050" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"/><circle cx="12" cy="13" r="4"/></svg><img alt="photo"><input type="file" accept="image/*" onchange="previewPhoto(this)"></div>
+      <div class="party-name">Freya Naglak</div>
+      <div class="party-role">Matron of Honor</div>
+    </div>
+    <div class="party-member">
+      <div class="party-photo" onclick="this.querySelector('input').click()"><svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="#7a6050" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"/><circle cx="12" cy="13" r="4"/></svg><img alt="photo"><input type="file" accept="image/*" onchange="previewPhoto(this)"></div>
+      <div class="party-name">Aljun Welba</div>
+      <div class="party-role">Best Man</div>
+    </div>
+    </div>
+
+    <div class="party-group-label">Bridesmaids</div>
+    <div class="party-group">
+    <div class="party-member">
+      <div class="party-photo" onclick="this.querySelector('input').click()"><svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="#7a6050" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"/><circle cx="12" cy="13" r="4"/></svg><img alt="photo"><input type="file" accept="image/*" onchange="previewPhoto(this)"></div>
+      <div class="party-name">Maria Andrea Ogrimina</div>
+      <div class="party-role">Bridesmaid</div>
+    </div>
+    <div class="party-member">
+      <div class="party-photo" onclick="this.querySelector('input').click()"><svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="#7a6050" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"/><circle cx="12" cy="13" r="4"/></svg><img alt="photo"><input type="file" accept="image/*" onchange="previewPhoto(this)"></div>
+      <div class="party-name">Maria Paula Ogrimina</div>
+      <div class="party-role">Bridesmaid</div>
+    </div>
+    <div class="party-member">
+      <div class="party-photo" onclick="this.querySelector('input').click()"><svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="#7a6050" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"/><circle cx="12" cy="13" r="4"/></svg><img alt="photo"><input type="file" accept="image/*" onchange="previewPhoto(this)"></div>
+      <div class="party-name">Chriselle Joy Diaz</div>
+      <div class="party-role">Bridesmaid</div>
+    </div>
+    <div class="party-member">
+      <div class="party-photo" onclick="this.querySelector('input').click()"><svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="#7a6050" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"/><circle cx="12" cy="13" r="4"/></svg><img alt="photo"><input type="file" accept="image/*" onchange="previewPhoto(this)"></div>
+      <div class="party-name">Suchi Taruballes</div>
+      <div class="party-role">Bridesmaid</div>
+    </div>
+    <div class="party-member">
+      <div class="party-photo" onclick="this.querySelector('input').click()"><svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="#7a6050" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"/><circle cx="12" cy="13" r="4"/></svg><img alt="photo"><input type="file" accept="image/*" onchange="previewPhoto(this)"></div>
+      <div class="party-name">Renilyn Dayao</div>
+      <div class="party-role">Bridesmaid</div>
+    </div>
+    </div>
+
+    <div class="party-group-label">Little Ones</div>
+    <div class="party-group">
+    <div class="party-member">
+      <div class="party-photo" onclick="this.querySelector('input').click()"><svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="#7a6050" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"/><circle cx="12" cy="13" r="4"/></svg><img alt="photo"><input type="file" accept="image/*" onchange="previewPhoto(this)"></div>
+      <div class="party-name">Isla Kiselle Taruballes</div>
+      <div class="party-role">Flower Girl</div>
+    </div>
+    <div class="party-member">
+      <div class="party-photo" onclick="this.querySelector('input').click()"><svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="#7a6050" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"/><circle cx="12" cy="13" r="4"/></svg><img alt="photo"><input type="file" accept="image/*" onchange="previewPhoto(this)"></div>
+      <div class="party-name">Aaliyah Joelene Labrador</div>
+      <div class="party-role">Flower Girl</div>
+    </div>
+    <div class="party-member">
+      <div class="party-photo" onclick="this.querySelector('input').click()"><svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="#7a6050" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"/><circle cx="12" cy="13" r="4"/></svg><img alt="photo"><input type="file" accept="image/*" onchange="previewPhoto(this)"></div>
+      <div class="party-name">Kristofer Clemen</div>
+      <div class="party-role">Ring Bearer</div>
+    </div>
+    </div>
+
+    <div class="party-group-label">Parents of the Bride</div>
+    <div class="party-group">
+    <div class="party-member">
+      <div class="party-photo" onclick="this.querySelector('input').click()"><svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="#7a6050" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"/><circle cx="12" cy="13" r="4"/></svg><img alt="photo"><input type="file" accept="image/*" onchange="previewPhoto(this)"></div>
+      <div class="party-name">Fredilyn Ogrimina</div>
+      <div class="party-role">Mother of the Bride</div>
+    </div>
+    <div class="party-member">
+      <div class="party-photo" onclick="this.querySelector('input').click()"><svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="#7a6050" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"/><circle cx="12" cy="13" r="4"/></svg><img alt="photo"><input type="file" accept="image/*" onchange="previewPhoto(this)"></div>
+      <div class="party-name">Sonny Ogrimina</div>
+      <div class="party-role">Father of the Bride</div>
+    </div>
+    </div>
+
+    <div class="party-group-label">Parents of the Groom</div>
+    <div class="party-group">
+    <div class="party-member">
+      <div class="party-photo" onclick="this.querySelector('input').click()"><svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="#7a6050" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"/><circle cx="12" cy="13" r="4"/></svg><img alt="photo"><input type="file" accept="image/*" onchange="previewPhoto(this)"></div>
+      <div class="party-name">Delia Clemen</div>
+      <div class="party-role">Mother of the Groom</div>
+    </div>
+    <div class="party-member">
+      <div class="party-photo" onclick="this.querySelector('input').click()"><svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="#7a6050" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"/><circle cx="12" cy="13" r="4"/></svg><img alt="photo"><input type="file" accept="image/*" onchange="previewPhoto(this)"></div>
+      <div class="party-name">Ambrosio Clemen</div>
+      <div class="party-role">Father of the Groom</div>
+    </div>
+    </div>
+
+  </section>
+
+  <div class="section-sep"></div>
+
+  <!-- GALLERY -->
+  <section id="gallery" class="section">
+    <div class="section-divider-wrap">
+      <div class="section-title">Gallery</div>
+      <div class="section-line"></div>
+    </div>
+    <p style="font-size:13px;color:#9a8070;margin-bottom:24px;font-style:italic;">
+      Photos coming soon. Check back after our engagement shoot!
+    </p>
+    <div class="gallery-grid">
+      <div class="gallery-cell">soon</div>
+      <div class="gallery-cell">soon</div>
+      <div class="gallery-cell">soon</div>
+      <div class="gallery-cell">soon</div>
+      <div class="gallery-cell">soon</div>
+      <div class="gallery-cell">soon</div>
+    </div>
+  </section>
+
+  <div class="section-sep"></div>
+
+  <!-- FAQs -->
+  <section id="faqs" class="section">
+    <div class="section-divider-wrap">
+      <div class="section-title">FAQs</div>
+      <div class="section-line"></div>
+    </div>
+    <div class="faq-item">
+      <div class="faq-q">What is the dress code?</div>
+      <div class="faq-a">Formal attire. Ladies are encouraged to wear blush, sage, or ivory. Gentlemen in barong tagalog or suit.</div>
+    </div>
+    <div class="faq-item">
+      <div class="faq-q">Are children welcome?</div>
+      <div class="faq-a">We love your little ones! Children above 5 years old are welcome at both the ceremony and reception.</div>
+    </div>
+    <div class="faq-item">
+      <div class="faq-q">When is the RSVP deadline?</div>
+      <div class="faq-a">Please RSVP by May 30, 2026 so we can confirm final headcount with our caterer.</div>
+    </div>
+    <div class="faq-item">
+      <div class="faq-q">Can I take photos during the ceremony?</div>
+      <div class="faq-a">We are having an unplugged ceremony — please keep phones away during the Mass. The reception is fully photo-friendly!</div>
+    </div>
+  </section>
+
+  <div class="section-sep"></div>
+
+  <!-- RSVP -->
+  <section id="rsvp" class="section">
+    <div class="section-divider-wrap">
+      <div class="section-title">RSVP</div>
+      <div class="section-line"></div>
+    </div>
+    <div class="rsvp-form" id="rsvpForm">
+      <label class="rsvp-label">Pangalan: <span class="required">*</span></label>
+      <input class="rsvp-input" type="text" placeholder="" id="rsvpName" />
+
+      <label class="rsvp-label">Email: <span class="required">*</span></label>
+      <input class="rsvp-input" type="email" placeholder="" id="rsvpEmail" />
+
+      <label class="rsvp-label">Numero ng Telepono: <span class="required">*</span></label>
+      <input class="rsvp-input" type="tel" placeholder="" id="rsvpPhone" />
+
+      <label class="rsvp-label">Mensahe sa Magkasintahan:</label>
+      <textarea class="rsvp-textarea" id="rsvpMessage"></textarea>
+
+      <label class="rsvp-label">Makakadalo ka ba? <span class="required">*</span></label>
+      <div class="rsvp-radio-group">
+        <label class="rsvp-radio-label">
+          <input type="radio" name="attend" value="yes" id="rsvpYes" />
+          Oo, makakadalo ako.
+        </label>
+        <label class="rsvp-radio-label">
+          <input type="radio" name="attend" value="no" id="rsvpNo" />
+          Pasensya, hindi ako makakadalo.
+        </label>
+      </div>
+
+      <button class="rsvp-btn" onclick="submitRsvp()">Submit</button>
+    </div>
+    <div class="rsvp-success" id="rsvpSuccess">
+      <div class="check">Thank you</div>
+      <p>Your RSVP has been received.</p>
+    </div>
+  </section>
+
+  <footer>Isabel &amp; Joey &middot; July 18, 2026</footer>
+
+  <script>
+    // ── COUNTDOWN ──
+    function updateCountdown() {
+      const wedding = new Date('2026-07-18T11:00:00+08:00').getTime();
+      const now = Date.now();
+      const diff = wedding - now;
+
+      if (diff <= 0) {
+        document.getElementById('cd-days').textContent = '0';
+        document.getElementById('cd-hours').textContent = '0';
+        document.getElementById('cd-mins').textContent = '0';
+        document.getElementById('cd-secs').textContent = '0';
+        return;
+      }
+
+      const days  = Math.floor(diff / (1000 * 60 * 60 * 24));
+      const hours = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+      const mins  = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
+      const secs  = Math.floor((diff % (1000 * 60)) / 1000);
+
+      document.getElementById('cd-days').textContent  = days;
+      document.getElementById('cd-hours').textContent = hours;
+      document.getElementById('cd-mins').textContent  = mins;
+      document.getElementById('cd-secs').textContent  = secs;
+    }
+
+    updateCountdown();
+    setInterval(updateCountdown, 1000);
+
+    // ── SCROLL FADE-IN ──
+    const sections = document.querySelectorAll('.section');
+    const dots = document.querySelectorAll('.dot-nav a');
+
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) entry.target.classList.add('visible');
+      });
+    }, { threshold: 0.12 });
+
+    sections.forEach(s => observer.observe(s));
+
+    // ── DOT NAV ──
+    const sectionIds = ['home','schedule','travel','registry','party','gallery','faqs','rsvp'];
+
+    const dotObserver = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          const idx = sectionIds.indexOf(entry.target.id);
+          dots.forEach((d, i) => d.classList.toggle('active', i === idx));
+        }
+      });
+    }, { threshold: 0.4 });
+
+    sections.forEach(s => dotObserver.observe(s));
+
+    function previewPhoto(input) {
+      if (!input.files || !input.files[0]) return;
+      const reader = new FileReader();
+      reader.onload = function(e) {
+        const container = input.closest('.party-photo');
+        const img = container.querySelector('img');
+        const svg = container.querySelector('svg');
+        img.src = e.target.result;
+        img.style.display = 'block';
+        if (svg) svg.style.display = 'none';
+      };
+      reader.readAsDataURL(input.files[0]);
+    }
+
+    // ── RSVP ──
+    function submitRsvp() {
+      const name = document.getElementById('rsvpName').value.trim();
+      const email = document.getElementById('rsvpEmail').value.trim();
+      const phone = document.getElementById('rsvpPhone').value.trim();
+      const attend = document.querySelector('input[name="attend"]:checked');
+      if (!name || !email || !phone || !attend) {
+        alert('Pakiusap punan ang lahat ng required na fields.');
+        return;
+      }
+      document.getElementById('rsvpForm').style.display = 'none';
+      document.getElementById('rsvpSuccess').style.display = 'block';
+    }
+
+    // ── MUSIC ──
+    function toggleMusic() {
+      const audio = document.getElementById('bgMusic');
+      audio.volume = 0.1;
+      const btn   = document.getElementById('musicBtn');
+      const icon  = document.getElementById('musicIcon');
+
+      if (audio.paused) {
+        audio.play().then(() => {
+          btn.classList.add('playing');
+          // Switch to pause icon
+          icon.innerHTML = '<rect x="6" y="4" width="4" height="16" rx="1"/><rect x="14" y="4" width="4" height="16" rx="1"/>';
+        }).catch(() => {
+          // Browser blocked — do nothing silently
+        });
+      } else {
+        audio.pause();
+        btn.classList.remove('playing');
+        // Switch back to play icon
+        icon.innerHTML = '<polygon points="5 3 19 12 5 21 5 3"/>';
+      }
+    }
+  </script>
+</body>
+</html>
