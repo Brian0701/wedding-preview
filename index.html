@@ -1,1102 +1,664 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Isabel & Joey's Wedding</title>
-  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300;1,400&family=Jost:wght@300;400;500&display=swap" rel="stylesheet" />
-  <style>
-    * { box-sizing: border-box; margin: 0; padding: 0; }
-    html { scroll-behavior: smooth; }
-
-    body {
-      font-family: 'Jost', sans-serif;
-      background: #f0ebe3;
-      color: #4a3728;
-      overflow-x: hidden;
-    }
-
-    /* ── HERO ── */
-    .hero {
-      min-height: 100vh;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      background: #f0ebe3;
-      text-align: center;
-      padding: 60px 24px;
-    }
-
-    .hero-content { display: flex; flex-direction: column; align-items: center; gap: 0; }
-
-    .couple-names {
-      font-family: 'Cormorant Garamond', serif;
-      font-size: 56px;
-      font-weight: 300;
-      font-style: italic;
-      color: #5c3d2e;
-      letter-spacing: 0.04em;
-      line-height: 1.1;
-      margin-bottom: 28px;
-    }
-
-    .ampersand { color: #8b6555; margin: 0 8px; }
-
-    .hero-date {
-      font-family: 'Cormorant Garamond', serif;
-      font-size: 46px;
-      font-weight: 300;
-      letter-spacing: 0.12em;
-      color: #5c3d2e;
-      text-transform: uppercase;
-      margin-bottom: 14px;
-    }
-
-    .hero-location {
-      font-family: 'Jost', sans-serif;
-      font-size: 13px;
-      letter-spacing: 0.18em;
-      color: #8b7060;
-      margin-bottom: 40px;
-    }
-
-    .countdown {
-      display: flex;
-      gap: 36px;
-      align-items: baseline;
-    }
-
-    .countdown-unit {
-      display: flex;
-      align-items: baseline;
-      gap: 6px;
-    }
-
-    .countdown-num {
-      font-family: 'Cormorant Garamond', serif;
-      font-size: 28px;
-      font-weight: 300;
-      color: #5c3d2e;
-      min-width: 32px;
-      text-align: right;
-    }
-
-    .countdown-label {
-      font-family: 'Jost', sans-serif;
-      font-size: 12px;
-      letter-spacing: 0.08em;
-      color: #8b7060;
-      font-weight: 300;
-    }
-
-    /* ── DOT NAV ── */
-    .dot-nav {
-      position: fixed;
-      right: 18px;
-      top: 50%;
-      transform: translateY(-50%);
-      z-index: 200;
-      display: flex;
-      flex-direction: column;
-      gap: 10px;
-    }
-
-    .dot-nav a {
-      display: block;
-      width: 7px; height: 7px;
-      border-radius: 50%;
-      background: #c9bfb0;
-      transition: background 0.3s, transform 0.3s;
-      text-decoration: none;
-    }
-
-    .dot-nav a.active {
-      background: #8b7060;
-      transform: scale(1.4);
-    }
-
-    /* ── SECTIONS ── */
-    .section {
-      padding: 72px 32px 80px;
-      max-width: 680px;
-      margin: 0 auto;
-      opacity: 0;
-      transform: translateY(36px);
-      transition: opacity 0.65s ease, transform 0.65s ease;
-    }
-
-    .section.visible {
-      opacity: 1;
-      transform: translateY(0);
-    }
-
-    .section-divider-wrap {
-      display: flex;
-      align-items: center;
-      gap: 16px;
-      margin-bottom: 36px;
-    }
-
-    .section-title {
-      font-family: 'Cormorant Garamond', serif;
-      font-size: 32px;
-      font-weight: 300;
-      font-style: italic;
-      color: #5c3d2e;
-      white-space: nowrap;
-    }
-
-    .section-line {
-      flex: 1;
-      height: 1px;
-      background: #d9cfc4;
-    }
-
-    .section-sep {
-      width: 60px;
-      height: 1px;
-      background: #d9cfc4;
-      margin: 0 auto;
-    }
-
-    /* ── HOME ── */
-    .home-text {
-      font-size: 15px;
-      line-height: 1.95;
-      color: #6b5040;
-    }
-
-    .home-text em {
-      font-family: 'Cormorant Garamond', serif;
-      font-size: 20px;
-      font-style: italic;
-      color: #8b7060;
-      display: block;
-      margin-top: 24px;
-    }
-
-    /* ── EVENTS ── */
-    .event-date-header {
-      font-family: 'Cormorant Garamond', serif;
-      font-size: 13px;
-      letter-spacing: 0.25em;
-      text-transform: uppercase;
-      color: #8b7060;
-      text-align: center;
-      margin-bottom: 24px;
-    }
-
-    .event-card {
-      background: #faf7f4;
-      border: 1px solid #d9cfc4;
-      border-radius: 8px;
-      padding: 22px 26px;
-      margin-bottom: 16px;
-      transition: border-color 0.2s;
-    }
-
-    .event-card:hover { border-color: #8b7060; }
-
-    .event-card-ceremony {
-      background-image: url('images/seminary_parish.jpg');
-      background-size: cover;
-      background-position: center;
-      border: none;
-      padding: 0;
-      overflow: hidden;
-      position: relative;
-      min-height: 280px;
-    }
-
-    .event-card-ceremony:hover { border-color: transparent; }
-
-    .event-card-reception {
-      background-image: url('images/timmy.jpg');
-      background-size: cover;
-      background-position: center;
-      border: none;
-      padding: 0;
-      overflow: hidden;
-      position: relative;
-      min-height: 280px;
-    }
-
-    .event-card-reception:hover { border-color: transparent; }
-
-    .event-card-overlay {
-      background: linear-gradient(to bottom, rgba(40,20,10,0.45) 0%, rgba(40,20,10,0.72) 100%);
-      padding: 22px 26px;
-      width: 100%;
-      height: 100%;
-    }
-
-    .event-label {
-      font-size: 10px;
-      letter-spacing: 0.22em;
-      text-transform: uppercase;
-      color: #8b7060;
-      margin-bottom: 6px;
-    }
-
-    .event-name {
-      font-family: 'Cormorant Garamond', serif;
-      font-size: 22px;
-      font-weight: 300;
-      color: #5c3d2e;
-      margin-bottom: 6px;
-    }
-
-    .event-detail {
-      font-size: 13px;
-      color: #7a6050;
-      line-height: 1.75;
-    }
-
-    .event-link {
-      color: #8b7060;
-      text-decoration: underline;
-      text-underline-offset: 3px;
-      font-style: italic;
-      font-size: 12px;
-    }
-
-    .event-note {
-      font-size: 12px;
-      color: #9a8070;
-      font-style: italic;
-      display: block;
-    }
-
-    .event-btn-row {
-      display: flex;
-      gap: 10px;
-      margin-top: 18px;
-    }
-
-    .event-btn {
-      flex: 1;
-      padding: 11px;
-      background: #5c3d2e;
-      color: #f0ebe3;
-      text-align: center;
-      border-radius: 6px;
-      font-family: 'Jost', sans-serif;
-      font-size: 11px;
-      letter-spacing: 0.18em;
-      text-transform: uppercase;
-      text-decoration: none;
-      transition: background 0.2s;
-    }
-
-    .event-btn:hover { background: #7a5040; }
-
-    .event-btn-outline {
-      background: transparent;
-      border: 1px solid #5c3d2e;
-      color: #5c3d2e;
-    }
-
-    .event-btn-outline:hover { background: #ede6de; }
-
-    /* ── TRAVEL ── */
-    .travel-card {
-      background: #faf7f4;
-      border: 1px solid #d9cfc4;
-      border-radius: 8px;
-      padding: 18px 22px;
-      margin-bottom: 14px;
-      transition: border-color 0.2s;
-    }
-
-    .travel-card:hover { border-color: #8b7060; }
-
-    .travel-label {
-      font-size: 10px;
-      letter-spacing: 0.22em;
-      text-transform: uppercase;
-      color: #8b7060;
-      margin-bottom: 6px;
-    }
-
-    .travel-name {
-      font-size: 15px;
-      font-weight: 500;
-      color: #5c3d2e;
-      margin-bottom: 4px;
-    }
-
-    .travel-detail {
-      font-size: 13px;
-      color: #7a6050;
-      line-height: 1.65;
-    }
-
-    /* ── REGISTRY ── */
-    .registry-intro {
-      font-size: 13px;
-      color: #7a6050;
-      margin-bottom: 24px;
-      line-height: 1.75;
-    }
-
-    .registry-grid {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 14px;
-    }
-
-    .registry-card {
-      background: #faf7f4;
-      border: 1px solid #d9cfc4;
-      border-radius: 8px;
-      padding: 24px 20px;
-      text-align: center;
-      cursor: pointer;
-      transition: border-color 0.2s, transform 0.2s;
-    }
-
-    .registry-card:hover {
-      border-color: #8b7060;
-      transform: translateY(-2px);
-    }
-
-    .registry-store {
-      font-size: 13px;
-      letter-spacing: 0.15em;
-      text-transform: uppercase;
-      color: #5c3d2e;
-      font-weight: 500;
-    }
-
-    .registry-sub {
-      font-size: 12px;
-      color: #9a8070;
-      margin-top: 4px;
-    }
-
-    /* ── WEDDING PARTY ── */
-    .party-group {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 36px;
-      justify-content: flex-start;
-      margin-bottom: 8px;
-    }
-
-    .party-member {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      text-align: center;
-      width: 200px;
-    }
-
-    .party-photo {
-      width: 200px;
-      height: 200px;
-      border-radius: 50%;
-      background: #e4dbd2;
-      border: 2px dashed #b0a090;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      flex-shrink: 0;
-      overflow: hidden;
-      cursor: pointer;
-      position: relative;
-      transition: border-color 0.2s;
-      margin-bottom: 20px;
-    }
-
-    .party-photo:hover { border-color: #8b7060; }
-
-    .party-photo svg { opacity: 0.4; }
-
-    .party-photo img {
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-      border-radius: 50%;
-      display: none;
-    }
-
-    .party-photo input[type="file"] {
-      position: absolute;
-      inset: 0;
-      opacity: 0;
-      cursor: pointer;
-      width: 100%;
-      height: 100%;
-    }
-
-    .party-name {
-      font-family: 'Cormorant Garamond', serif;
-      font-size: 20px;
-      font-weight: 400;
-      letter-spacing: 0.08em;
-      text-transform: uppercase;
-      color: #5c3d2e;
-      margin-bottom: 6px;
-      line-height: 1.3;
-    }
-
-    .party-role {
-      font-size: 14px;
-      letter-spacing: 0.15em;
-      color: #8b7060;
-    }
-
-    .party-group-label {
-      font-size: 10px;
-      letter-spacing: 0.22em;
-      text-transform: uppercase;
-      color: #8b7060;
-      margin: 28px 0 14px;
-      padding-bottom: 8px;
-      border-bottom: 1px solid #d9cfc4;
-    }
-
-    .party-group-label:first-of-type { margin-top: 0; }
-
-    /* ── GALLERY ── */
-    .gallery-grid {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 8px;
-    }
-
-    .gallery-cell {
-      aspect-ratio: 1;
-      background: #e4dbd2;
-      border-radius: 4px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 11px;
-      letter-spacing: 0.12em;
-      text-transform: uppercase;
-      color: #a89080;
-    }
-
-    /* ── FAQs ── */
-    .faq-item {
-      border-bottom: 1px solid #d9cfc4;
-      padding: 18px 0;
-    }
-
-    .faq-q {
-      font-size: 14px;
-      font-weight: 500;
-      color: #5c3d2e;
-      margin-bottom: 8px;
-    }
-
-    .faq-a {
-      font-size: 13px;
-      color: #7a6050;
-      line-height: 1.75;
-    }
-
-    /* ── RSVP ── */
-    .rsvp-form { max-width: 520px; }
-
-    .rsvp-label {
-      font-size: 11px;
-      letter-spacing: 0.18em;
-      text-transform: uppercase;
-      color: #8b7060;
-      display: block;
-      margin-bottom: 8px;
-    }
-
-    .rsvp-hint {
-      font-size: 12px;
-      color: #9a8070;
-      margin-bottom: 20px;
-      font-style: italic;
-    }
-
-    .rsvp-input {
-      width: 100%;
-      padding: 12px 16px;
-      border: 1px solid #d9cfc4;
-      border-radius: 6px;
-      background: #faf7f4;
-      font-family: 'Jost', sans-serif;
-      font-size: 14px;
-      color: #5c3d2e;
-      outline: none;
-      transition: border-color 0.2s;
-      margin-bottom: 20px;
-      appearance: none;
-    }
-
-    .rsvp-input:focus { border-color: #8b7060; }
-
-    .rsvp-btn {
-      width: 100%;
-      padding: 13px;
-      background: #5c3d2e;
-      color: #f0ebe3;
-      border: none;
-      border-radius: 6px;
-      font-family: 'Jost', sans-serif;
-      font-size: 12px;
-      letter-spacing: 0.2em;
-      text-transform: uppercase;
-      cursor: pointer;
-      transition: background 0.2s, transform 0.15s;
-    }
-
-    .rsvp-btn:hover { background: #7a5040; }
-    .rsvp-btn:active { transform: scale(0.98); }
-
-    .rsvp-success {
-      display: none;
-      text-align: center;
-      padding: 48px 0;
-    }
-
-    .rsvp-success .check {
-      font-family: 'Cormorant Garamond', serif;
-      font-size: 48px;
-      font-style: italic;
-      color: #8b7060;
-    }
-
-    .rsvp-success p {
-      font-family: 'Cormorant Garamond', serif;
-      font-size: 24px;
-      font-style: italic;
-      color: #5c3d2e;
-      margin-top: 12px;
-    }
-
-    /* ── MUSIC BUTTON ── */
-    .music-btn {
-      position: fixed;
-      bottom: 24px;
-      left: 24px;
-      z-index: 300;
-      background: #faf7f4;
-      border: 1px solid #d9cfc4;
-      border-radius: 50%;
-      width: 44px;
-      height: 44px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      cursor: pointer;
-      transition: border-color 0.2s, box-shadow 0.2s;
-      box-shadow: 0 2px 8px rgba(92,61,46,0.10);
-    }
-
-    .music-btn:hover {
-      border-color: #8b7060;
-      box-shadow: 0 4px 14px rgba(92,61,46,0.18);
-    }
-
-    .music-btn.playing {
-      border-color: #8b7060;
-      background: #f5ede6;
-    }
-
-    /* ── FOOTER ── */
-    footer {
-      text-align: center;
-      padding: 36px;
-      font-size: 11px;
-      letter-spacing: 0.18em;
-      color: #9a8070;
-      border-top: 1px solid #d9cfc4;
-      text-transform: uppercase;
-    }
-
-    @media (max-width: 480px) {
-      .couple-names { font-size: 38px; }
-      .hero-date { font-size: 30px; }
-      .countdown { gap: 20px; }
-      .countdown-num { font-size: 22px; }
-      .section { padding: 52px 20px 60px; }
-      .dot-nav { right: 10px; }
-      .party-member { width: 140px; }
-      .party-photo { width: 140px; height: 140px; }
-      .music-btn { bottom: 16px; left: 16px; width: 40px; height: 40px; }
-    }
-  </style>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0"/>
+<title>Ogrimina &amp; Clemen's Wedding</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Jost:wght@300;400;500&display=swap" rel="stylesheet"/>
+<style>
+/* ===== VARIABLES & RESET ===== */
+:root{
+  --bg:#f0ebe3;--surface:#faf7f4;--border:#d9cfc4;
+  --ink:#4a3728;--ink2:#5c3d2e;--muted:#7a6050;
+  --faint:#9a8070;--accent:#8b6555;--light-accent:rgba(139,101,85,0.08);
+}
+*{box-sizing:border-box;margin:0;padding:0;}
+html{scroll-behavior:smooth;}
+body{font-family:'Jost',sans-serif;background:var(--bg);color:var(--ink);overflow-x:hidden;}
+img{max-width:100%;height:auto;}
+
+/* ===== DOT NAV ===== */
+.dot-nav{position:fixed;right:12px;top:50%;transform:translateY(-50%);z-index:500;display:flex;flex-direction:column;gap:10px;}
+.dot-nav a{display:block;width:7px;height:7px;border-radius:50%;background:#c9bfb0;transition:all .3s;text-decoration:none;}
+.dot-nav a.active{background:var(--accent);transform:scale(1.5);}
+@media(max-width:480px){.dot-nav{right:6px;}}
+
+/* ===== MUSIC BTN ===== */
+.music-btn{position:fixed;bottom:20px;left:20px;z-index:500;background:var(--surface);border:1px solid var(--border);border-radius:50%;width:44px;height:44px;display:flex;align-items:center;justify-content:center;cursor:pointer;transition:all .2s;box-shadow:0 2px 8px rgba(92,61,46,.1);}
+.music-btn:hover,.music-btn.playing{border-color:var(--accent);}
+@media(max-width:480px){.music-btn{width:38px;height:38px;bottom:14px;left:14px;}}
+
+/* ===== HERO ===== */
+.hero-photo-bg{position:absolute;inset:0;background-size:cover;background-position:center;}
+.hero-photo-overlay{position:absolute;inset:0;background:linear-gradient(to bottom,rgba(240,235,227,.55) 0%,rgba(240,235,227,.75) 60%,rgba(240,235,227,.95) 100%);}
+.hero-content{position:relative;z-index:2;display:flex;flex-direction:column;align-items:center;gap:0;padding:0 16px;width:100%;}
+.couple-names{font-family:'Cormorant Garamond',serif;font-size:clamp(32px,8vw,72px);font-weight:300;font-style:italic;color:var(--ink2);letter-spacing:.04em;line-height:1.1;margin-bottom:20px;text-align:center;}
+.ampersand{color:var(--accent);margin:0 8px;}
+.hero-date{font-family:'Cormorant Garamond',serif;font-size:clamp(20px,5vw,46px);font-weight:300;letter-spacing:.12em;color:var(--ink2);text-transform:uppercase;margin-bottom:12px;text-align:center;}
+.hero-location{font-size:clamp(10px,2.5vw,12px);letter-spacing:.18em;color:var(--faint);margin-bottom:36px;text-align:center;}
+.countdown{display:flex;gap:clamp(12px,4vw,32px);align-items:baseline;flex-wrap:wrap;justify-content:center;}
+.countdown-unit{display:flex;align-items:baseline;gap:5px;}
+.countdown-num{font-family:'Cormorant Garamond',serif;font-size:clamp(20px,5vw,28px);font-weight:300;color:var(--ink2);min-width:28px;text-align:right;}
+.countdown-label{font-size:clamp(9px,2vw,11px);letter-spacing:.08em;color:var(--faint);font-weight:300;}
+
+/* ===== SECTIONS ===== */
+.section{padding:clamp(48px,8vw,80px) clamp(16px,5vw,32px);max-width:700px;margin:0 auto;opacity:0;transform:translateY(36px);transition:opacity .65s ease,transform .65s ease;}
+.section.visible{opacity:1;transform:translateY(0);}
+.section-divider-wrap{display:flex;align-items:center;gap:16px;margin-bottom:36px;}
+.section-title{font-family:'Cormorant Garamond',serif;font-size:clamp(24px,5vw,32px);font-weight:300;font-style:italic;color:var(--ink2);white-space:nowrap;}
+.section-line{flex:1;height:1px;background:var(--border);}
+.section-sep{width:60px;height:1px;background:var(--border);margin:0 auto;}
+.body-text{font-size:clamp(13px,3vw,15px);line-height:1.9;color:var(--muted);}
+.body-text em{font-family:'Cormorant Garamond',serif;font-size:clamp(16px,4vw,20px);font-style:italic;color:var(--accent);display:block;margin-top:24px;}
+
+/* ===== COUPLE PHOTOS ===== */
+.couple-photos-row{display:flex;gap:clamp(16px,4vw,28px);justify-content:center;flex-wrap:wrap;margin-bottom:32px;}
+.couple-photo-wrap{display:flex;flex-direction:column;align-items:center;gap:14px;}
+.couple-photo{width:clamp(120px,22vw,180px);height:clamp(120px,22vw,180px);border-radius:50%;background:var(--surface);border:2px dashed var(--border);display:flex;align-items:center;justify-content:center;overflow:hidden;}
+.couple-photo img{width:100%;height:100%;object-fit:cover;}
+.couple-photo-name{font-family:'Cormorant Garamond',serif;font-size:clamp(14px,3vw,16px);font-style:italic;color:var(--ink2);}
+
+/* ===== EVENTS ===== */
+.event-date-header{font-family:'Cormorant Garamond',serif;font-size:clamp(11px,2.5vw,13px);letter-spacing:.25em;text-transform:uppercase;color:var(--faint);text-align:center;margin-bottom:24px;}
+.event-card{background:var(--surface);border:1px solid var(--border);border-radius:10px;padding:clamp(16px,4vw,24px) clamp(16px,4vw,28px);margin-bottom:16px;transition:border-color .2s;}
+.event-card:hover{border-color:var(--accent);}
+.event-label{font-size:10px;letter-spacing:.22em;text-transform:uppercase;color:var(--faint);margin-bottom:6px;}
+.event-name{font-family:'Cormorant Garamond',serif;font-size:clamp(18px,4vw,22px);font-weight:300;color:var(--ink2);margin-bottom:8px;}
+.event-detail{font-size:clamp(12px,3vw,13px);color:var(--muted);line-height:1.8;}
+.event-link{color:var(--accent);text-decoration:underline;text-underline-offset:3px;font-style:italic;font-size:12px;}
+.event-note{font-size:12px;color:var(--faint);font-style:italic;display:block;margin-top:6px;}
+.event-btn-row{display:flex;gap:10px;margin-top:16px;flex-wrap:wrap;}
+.event-btn{flex:1;min-width:120px;padding:11px;background:var(--ink2);color:var(--bg);text-align:center;border-radius:6px;font-size:11px;letter-spacing:.18em;text-transform:uppercase;text-decoration:none;transition:background .2s;font-family:'Jost',sans-serif;}
+.event-btn:hover{background:var(--muted);}
+.event-btn-outline{background:transparent;border:1px solid var(--ink2);color:var(--ink2);}
+
+/* ===== TRAVEL ===== */
+.travel-card{background:var(--surface);border:1px solid var(--border);border-radius:10px;padding:clamp(16px,4vw,20px) clamp(16px,4vw,24px);text-align:center;}
+.travel-label{font-size:10px;letter-spacing:.22em;text-transform:uppercase;color:var(--faint);margin-bottom:6px;}
+.travel-name{font-size:clamp(14px,3vw,15px);font-weight:500;color:var(--ink2);margin-bottom:4px;}
+.travel-detail{font-size:clamp(12px,3vw,13px);color:var(--muted);line-height:1.7;}
+
+/* ===== REGISTRY ===== */
+.registry-intro{font-size:clamp(12px,3vw,13px);color:var(--muted);margin-bottom:24px;line-height:1.8;}
+.registry-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px;}
+@media(max-width:400px){.registry-grid{grid-template-columns:1fr;}}
+.registry-card{background:var(--surface);border:1px solid var(--border);border-radius:10px;padding:clamp(16px,4vw,24px) clamp(12px,3vw,20px);text-align:center;transition:all .2s;}
+.registry-card:hover{border-color:var(--accent);transform:translateY(-2px);}
+.registry-store{font-size:clamp(11px,2.5vw,13px);letter-spacing:.15em;text-transform:uppercase;color:var(--ink2);font-weight:500;}
+.registry-sub{font-size:12px;color:var(--faint);margin-top:4px;}
+
+/* ===== WEDDING PARTY ===== */
+.party-group-label{font-size:10px;letter-spacing:.22em;text-transform:uppercase;color:var(--faint);margin:28px 0 16px;padding-bottom:8px;border-bottom:1px solid var(--border);}
+.party-group{display:flex;flex-wrap:wrap;gap:clamp(16px,4vw,28px);justify-content:flex-start;margin-bottom:8px;}
+.party-member{display:flex;flex-direction:column;align-items:center;text-align:center;width:clamp(100px,28vw,150px);}
+.party-photo{width:clamp(100px,28vw,150px);height:clamp(100px,28vw,150px);border-radius:50%;background:var(--surface);border:2px dashed var(--border);display:flex;align-items:center;justify-content:center;overflow:hidden;margin-bottom:12px;}
+.party-photo img{width:100%;height:100%;object-fit:cover;}
+.party-name{font-family:'Cormorant Garamond',serif;font-size:clamp(14px,3.5vw,17px);font-weight:400;letter-spacing:.06em;color:var(--ink2);margin-bottom:4px;line-height:1.3;}
+.party-role{font-size:clamp(10px,2.5vw,12px);letter-spacing:.12em;color:var(--faint);}
+
+/* ===== GALLERY ===== */
+.gallery-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;}
+@media(max-width:380px){.gallery-grid{grid-template-columns:repeat(2,1fr);}}
+.gallery-cell{aspect-ratio:1;background:var(--surface);border-radius:4px;border:1px solid var(--border);overflow:hidden;display:flex;align-items:center;justify-content:center;font-size:11px;letter-spacing:.1em;color:var(--faint);}
+.gallery-cell img{width:100%;height:100%;object-fit:cover;}
+
+/* ===== VIDEO ===== */
+.video-wrap{border-radius:10px;overflow:hidden;border:1px solid var(--border);margin-bottom:16px;}
+.video-wrap iframe,.video-wrap video{width:100%;display:block;aspect-ratio:16/9;border:none;}
+
+/* ===== FAQ ===== */
+.faq-item{border-bottom:1px solid var(--border);padding:18px 0;}
+.faq-q{font-size:clamp(13px,3vw,14px);font-weight:500;color:var(--ink2);margin-bottom:8px;}
+.faq-a{font-size:clamp(12px,3vw,13px);color:var(--muted);line-height:1.8;}
+
+/* ===== RSVP ===== */
+.rsvp-label{font-size:11px;letter-spacing:.18em;text-transform:uppercase;color:var(--faint);display:block;margin-bottom:8px;}
+.rsvp-input{width:100%;padding:12px 16px;border:1px solid var(--border);border-radius:6px;background:var(--surface);font-family:'Jost',sans-serif;font-size:clamp(13px,3vw,14px);color:var(--ink2);outline:none;transition:border-color .2s;margin-bottom:20px;appearance:none;-webkit-appearance:none;}
+.rsvp-input:focus{border-color:var(--accent);}
+.rsvp-radio-group{display:flex;flex-direction:column;gap:10px;margin-bottom:20px;}
+.rsvp-radio-label{display:flex;align-items:center;gap:10px;font-size:clamp(13px,3vw,14px);color:var(--ink);cursor:pointer;}
+.rsvp-radio-label input{accent-color:var(--accent);width:18px;height:18px;flex-shrink:0;}
+.rsvp-textarea{width:100%;padding:12px 16px;border:1px solid var(--border);border-radius:6px;background:var(--surface);font-family:'Jost',sans-serif;font-size:clamp(13px,3vw,14px);color:var(--ink2);outline:none;margin-bottom:20px;min-height:100px;resize:vertical;}
+.rsvp-textarea:focus{border-color:var(--accent);}
+.rsvp-btn{width:100%;padding:14px;background:var(--ink2);color:var(--bg);border:none;border-radius:6px;font-family:'Jost',sans-serif;font-size:12px;letter-spacing:.2em;text-transform:uppercase;cursor:pointer;transition:background .2s;}
+.rsvp-btn:hover{background:var(--muted);}
+.rsvp-success{display:none;text-align:center;padding:48px 0;}
+.rsvp-success .check{font-family:'Cormorant Garamond',serif;font-size:clamp(36px,8vw,48px);font-style:italic;color:var(--accent);}
+.rsvp-success p{font-family:'Cormorant Garamond',serif;font-size:clamp(18px,4vw,24px);font-style:italic;color:var(--ink2);margin-top:12px;}
+
+/* ===== FOOTER ===== */
+footer{text-align:center;padding:clamp(24px,5vw,36px);font-size:11px;letter-spacing:.18em;color:var(--faint);border-top:1px solid var(--border);text-transform:uppercase;}
+
+/* =====================================================
+   INTRO OVERLAY
+   ===================================================== */
+#intro-overlay{
+  position:fixed;inset:0;z-index:9999;
+  background:radial-gradient(ellipse at 60% 40%,#f5ede4 0%,#e8d9cc 40%,#d4c0b0 100%);
+  display:flex;align-items:center;justify-content:center;
+  overflow:hidden;
+}
+#intro-overlay.hidden{display:none;}
+
+/* --- Envelope Stage --- */
+#envelope-stage{
+  position:absolute;inset:0;
+  display:flex;flex-direction:column;
+  align-items:center;justify-content:center;
+  gap:24px;padding:24px;
+}
+.env-hint{
+  font-family:'Cormorant Garamond',serif;
+  font-size:clamp(14px,4vw,17px);font-style:italic;
+  color:#7a6050;letter-spacing:.12em;
+  opacity:0;animation:fadeIn 1.2s 1.2s forwards;
+  text-align:center;
+}
+@keyframes fadeIn{to{opacity:1;}}
+#envelope-wrap{
+  cursor:pointer;
+  animation:floatEnv 3s ease-in-out infinite,fadeIn 1s .4s both;
+  transform-origin:center;
+  filter:drop-shadow(0 12px 28px rgba(92,61,46,.22));
+  -webkit-tap-highlight-color:transparent;
+}
+@keyframes floatEnv{
+  0%,100%{transform:translateY(0px) rotate(-1.5deg);}
+  50%{transform:translateY(-18px) rotate(1.5deg);}
+}
+.env-svg{width:clamp(130px,40vw,200px);height:auto;}
+.env-flap{transform-origin:top center;transition:transform .5s ease;}
+
+/* --- Video Stage --- */
+#video-stage{
+  position:absolute;inset:0;
+  display:flex;flex-direction:column;
+  align-items:center;justify-content:center;
+  opacity:0;pointer-events:none;
+  transition:opacity .8s;
+  background:#000;
+  padding:16px;
+}
+#video-stage.show{opacity:1;pointer-events:all;}
+#prenup-video{
+  width:min(90vw,840px);
+  aspect-ratio:16/9;
+  border-radius:8px;
+  background:#111;
+  outline:none;
+  box-shadow:0 24px 80px rgba(0,0,0,.6);
+  max-height:70vh;
+}
+.video-label{
+  font-family:'Cormorant Garamond',serif;
+  font-size:clamp(11px,3vw,14px);letter-spacing:.28em;
+  color:rgba(255,255,255,.55);
+  margin-top:16px;text-transform:uppercase;
+  text-align:center;
+}
+#skip-video-btn{
+  position:absolute;bottom:clamp(16px,4vw,36px);right:clamp(16px,4vw,48px);
+  font-family:'Jost',sans-serif;
+  font-size:clamp(10px,2.5vw,11px);letter-spacing:.2em;
+  color:rgba(255,255,255,.5);
+  cursor:pointer;border:1px solid rgba(255,255,255,.25);
+  background:transparent;padding:10px 20px;border-radius:20px;
+  text-transform:uppercase;transition:all .2s;
+  -webkit-tap-highlight-color:transparent;
+}
+#skip-video-btn:hover,#skip-video-btn:active{color:#fff;border-color:rgba(255,255,255,.6);}
+
+/* --- Curtain Stage --- */
+#curtain-stage{
+  position:absolute;inset:0;
+  display:flex;pointer-events:none;
+  opacity:0;transition:opacity .3s;
+  overflow:hidden;
+}
+#curtain-stage.show{opacity:1;pointer-events:all;}
+.curtain-panel{
+  position:absolute;top:0;bottom:0;width:50%;
+  background:linear-gradient(135deg,#3a2318 0%,#5c3d2e 30%,#7a5243 55%,#5c3d2e 80%,#3a2318 100%);
+  transition:transform 1.8s cubic-bezier(.76,0,.24,1);
+  overflow:hidden;
+}
+.curtain-left{left:0;transform:translateX(0);}
+.curtain-right{right:0;transform:translateX(0);}
+.curtain-panel.open-left{transform:translateX(-100%);}
+.curtain-panel.open-right{transform:translateX(100%);}
+.curtain-folds{
+  position:absolute;inset:0;
+  background:repeating-linear-gradient(
+    90deg,
+    transparent 0px,rgba(0,0,0,.12) 3px,
+    transparent 6px,rgba(255,255,255,.04) 12px,
+    transparent 18px,rgba(0,0,0,.08) 24px,
+    transparent 30px
+  );
+}
+.curtain-sheen{
+  position:absolute;inset:0;
+  background:linear-gradient(90deg,rgba(255,255,255,.07) 0%,transparent 40%,rgba(0,0,0,.15) 100%);
+}
+.curtain-right .curtain-sheen{
+  background:linear-gradient(90deg,rgba(0,0,0,.15) 0%,transparent 60%,rgba(255,255,255,.07) 100%);
+}
+#curtain-light{
+  position:absolute;top:0;left:50%;
+  transform:translateX(-50%) scaleX(0);
+  width:clamp(60px,15vw,120px);height:100%;
+  background:radial-gradient(ellipse 60px 200% at 50% 10%,
+    rgba(255,248,230,.9) 0%,rgba(255,240,210,.35) 40%,transparent 100%);
+  pointer-events:none;
+  transition:transform 1.6s 1.4s cubic-bezier(.22,1,.36,1),opacity 1s 1.4s;
+  opacity:0;z-index:2;
+}
+#curtain-stage.light-on #curtain-light{
+  transform:translateX(-50%) scaleX(1);opacity:1;
+}
+.light-particle{
+  position:absolute;border-radius:50%;
+  background:rgba(255,248,230,.8);
+  animation:floatParticle linear infinite;
+  pointer-events:none;
+}
+@keyframes floatParticle{
+  0%{transform:translateY(100vh) scale(0);opacity:0;}
+  10%{opacity:1;}90%{opacity:1;}
+  100%{transform:translateY(-20px) scale(1);opacity:0;}
+}
+</style>
 </head>
 <body>
 
-  <!-- DOT NAV -->
-  <nav class="dot-nav" id="dotNav">
-    <a href="#home" title="Home"></a>
-    <a href="#schedule" title="Schedule"></a>
-    <a href="#travel" title="Travel"></a>
-    <a href="#registry" title="Registry"></a>
-    <a href="#party" title="Wedding Party"></a>
-    <a href="#gallery" title="Gallery"></a>
-    <a href="#faqs" title="FAQs"></a>
-    <a href="#rsvp" title="RSVP"></a>
-  </nav>
+<!-- NAV + MUSIC (hidden until intro ends) -->
+<nav class="dot-nav" id="dotNav" style="opacity:0;transition:opacity 1s;">
+  <a href="#hero"></a><a href="#welcome"></a><a href="#schedule"></a><a href="#travel"></a>
+  <a href="#registry"></a><a href="#party"></a><a href="#gallery"></a><a href="#faqs"></a><a href="#rsvp"></a>
+</nav>
+<div class="music-btn" id="musicBtn" onclick="toggleMusic()" title="Toggle music" style="opacity:0;transition:opacity 1s;">
+  <svg id="musicIcon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#7a6050" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><polygon points="5 3 19 12 5 21 5 3"/></svg>
+</div>
+<audio id="bgMusic" loop></audio>
 
-  <!-- MUSIC BUTTON -->
-  <div class="music-btn" onclick="toggleMusic()" id="musicBtn" title="Toggle music">
-    <svg id="musicIcon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#7a6050" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
-      <polygon points="5 3 19 12 5 21 5 3"/>
-    </svg>
+<!-- ============================================================
+     INTRO OVERLAY
+     ============================================================ -->
+<div id="intro-overlay">
+
+  <!-- STAGE 1: Floating Envelope -->
+  <div id="envelope-stage">
+    <div id="envelope-wrap" onclick="openEnvelope()">
+      <svg class="env-svg" viewBox="0 0 220 160" xmlns="http://www.w3.org/2000/svg">
+        <rect x="4" y="40" width="212" height="116" rx="8" fill="#faf7f2" stroke="#c9b99a" stroke-width="2"/>
+        <path d="M4 156 L110 88 L216 156Z" fill="#f0e8dc"/>
+        <path d="M4 40 L110 110 L4 156Z" fill="#e8ddd0"/>
+        <path d="M216 40 L110 110 L216 156Z" fill="#ede3d6"/>
+        <circle cx="110" cy="120" r="16" fill="#8b6555" opacity=".9"/>
+        <text x="110" y="125" text-anchor="middle" font-family="Cormorant Garamond,serif" font-size="13" fill="#faf7f2" font-style="italic">I&amp;J</text>
+        <path class="env-flap" d="M4 40 L110 105 L216 40Z" fill="#f5efe6" stroke="#c9b99a" stroke-width="2" stroke-linejoin="round"/>
+        <path class="env-flap" d="M4 40 L110 105 L216 40Z" fill="url(#flapGrad)" opacity=".4"/>
+        <defs>
+          <linearGradient id="flapGrad" x1="0" y1="0" x2="1" y2="1">
+            <stop offset="0%" stop-color="#fff" stop-opacity=".6"/>
+            <stop offset="100%" stop-color="#8b6555" stop-opacity=".1"/>
+          </linearGradient>
+        </defs>
+        <text x="40" y="70" font-size="11" opacity=".3">♡</text>
+        <text x="168" y="70" font-size="11" opacity=".3">♡</text>
+      </svg>
+    </div>
+    <div class="env-hint">Click to open your invitation ✉</div>
   </div>
 
-  <!-- BACKGROUND AUDIO -->
-  <!-- Put your MP3 file in a "music" folder next to index.html, e.g. music/song.mp3 -->
-  <audio id="bgMusic" loop>
-    <source src="music/song.mp3" type="audio/mpeg">
-  </audio>
+  <!-- STAGE 2: Prenup Video -->
+  <div id="video-stage">
+    <video id="prenup-video" autoplay playsinline controls>
+      <!-- Replace src="" with your actual prenup video URL -->
+      <source src="" type="video/mp4"/>
+      Your browser does not support video playback.
+    </video>
+    <div class="video-label">Isabel &amp; Joey · Prenup</div>
+    <button id="skip-video-btn" onclick="skipToReveal()">Skip →</button>
+  </div>
 
-  <!-- HERO -->
-  <div class="hero">
-    <div class="hero-content">
-      <div class="couple-names">Isabel <span class="ampersand">&</span> Joey</div>
-      <div class="hero-date">July 18, 2026</div>
-      <div class="hero-location">Antipolo, Rizal, Philippines</div>
-      <div class="countdown">
-        <div class="countdown-unit">
-          <span class="countdown-num" id="cd-days">00</span>
-          <span class="countdown-label">days</span>
-        </div>
-        <div class="countdown-unit">
-          <span class="countdown-num" id="cd-hours">00</span>
-          <span class="countdown-label">hours</span>
-        </div>
-        <div class="countdown-unit">
-          <span class="countdown-num" id="cd-mins">00</span>
-          <span class="countdown-label">minutes</span>
-        </div>
-        <div class="countdown-unit">
-          <span class="countdown-num" id="cd-secs">00</span>
-          <span class="countdown-label">seconds</span>
-        </div>
-      </div>
+  <!-- STAGE 3: Curtain Reveal -->
+  <div id="curtain-stage">
+    <div class="curtain-panel curtain-left">
+      <div class="curtain-folds"></div>
+      <div class="curtain-sheen"></div>
+    </div>
+    <div class="curtain-panel curtain-right">
+      <div class="curtain-folds"></div>
+      <div class="curtain-sheen"></div>
+    </div>
+    <div id="curtain-light">
+      <div class="light-particle" style="width:3px;height:3px;left:45%;animation-duration:4s;animation-delay:0s;"></div>
+      <div class="light-particle" style="width:2px;height:2px;left:55%;animation-duration:5.5s;animation-delay:1s;"></div>
+      <div class="light-particle" style="width:4px;height:4px;left:35%;animation-duration:3.8s;animation-delay:2.1s;"></div>
+      <div class="light-particle" style="width:2px;height:2px;left:65%;animation-duration:4.7s;animation-delay:.5s;"></div>
+      <div class="light-particle" style="width:3px;height:3px;left:50%;animation-duration:6s;animation-delay:1.7s;"></div>
     </div>
   </div>
 
-  <!-- HOME -->
-  <section id="home" class="section">
-    <div class="section-divider-wrap">
-      <div class="section-title">Welcome</div>
-      <div class="section-line"></div>
-    </div>
-    <p class="home-text">
-      We are so grateful to share this beautiful milestone with the people we love most.
-      We hope you will join us in celebrating our union surrounded by joy, laughter, and love.<br><br>
-      Please scroll through to find all the details about our special day —
-      from schedule and travel tips to registry and RSVPs.
-      <em>"For all the days along the way."</em>
-    </p>
-  </section>
+</div><!-- /#intro-overlay -->
 
-  <div class="section-sep"></div>
-
-  <!-- SCHEDULE -->
-  <section id="schedule" class="section">
-    <div class="section-divider-wrap">
-      <div class="section-title">Schedule</div>
-      <div class="section-line"></div>
+<!-- ============================================================
+     LANDING PAGE
+     ============================================================ -->
+<div id="hero" style="min-height:100vh;display:flex;align-items:center;justify-content:center;text-align:center;padding:80px 24px;position:relative;overflow:hidden;">
+  <div class="hero-photo-bg" style="background-image: url('YOUR_PHOTO_URL_HERE');"></div>
+  <div class="hero-photo-overlay"></div>
+  <div class="hero-content">
+    <div class="couple-names">Ogrimina <span class="ampersand">&amp;</span> Clemen</div>
+    <div class="hero-date">July 18, 2026</div>
+    <div class="hero-location">Antipolo, Rizal, Philippines</div>
+    <div class="countdown">
+      <div class="countdown-unit"><span class="countdown-num" id="cd-days">—</span><span class="countdown-label">days</span></div>
+      <div class="countdown-unit"><span class="countdown-num" id="cd-hours">—</span><span class="countdown-label">hours</span></div>
+      <div class="countdown-unit"><span class="countdown-num" id="cd-mins">—</span><span class="countdown-label">minutes</span></div>
+      <div class="countdown-unit"><span class="countdown-num" id="cd-secs">—</span><span class="countdown-label">seconds</span></div>
     </div>
-    <div class="event-date-header">Saturday, July 18, 2026</div>
-    <div class="event-card event-card-ceremony">
-      <div class="event-card-overlay">
-        <div class="event-label" style="color:#e8ddd4;">Ceremony</div>
-        <div class="event-name" style="color:#fff;">Wedding Ceremony</div>
-        <div class="event-detail" style="color:#e8ddd4;">
-          11:00 AM &ndash; 1:00 PM<br><br>
-          Seminary Parish of Our Lady of the Rosary of Manaoag in Antipolo<br>
-          <a class="event-link" style="color:#e8ddd4;" href="https://maps.google.com/?q=Sitio+Oreta,+Antipolo,+Rizal+1870,+Philippines" target="_blank">Sitio Oreta, Antipolo, Rizal 1870, Philippines</a><br><br>
-          <span class="event-note" style="color:#d4c9bf;">Please make sure to have a cover-up. Guests who wear revealing clothes will not be allowed inside the church.</span>
-        </div>
-        <div class="event-btn-row">
-          <a class="event-btn" style="background:rgba(255,255,255,0.15);border:1px solid rgba(255,255,255,0.6);color:#fff;backdrop-filter:blur(4px);" href="https://maps.google.com/?q=Sitio+Oreta,+Antipolo,+Rizal+1870,+Philippines" target="_blank">Map</a>
-          <a class="event-btn event-btn-outline" style="background:transparent;border:1px solid rgba(255,255,255,0.6);color:#fff;" href="https://calendar.google.com/calendar/render?action=TEMPLATE&text=Isabel+%26+Joey+Wedding+Ceremony&dates=20260718T030000Z/20260718T050000Z&location=Sitio+Oreta,+Antipolo,+Rizal+1870,+Philippines" target="_blank">Add to Calendar</a>
-        </div>
+  </div>
+</div>
+
+<section id="welcome" class="section">
+  <div class="section-divider-wrap"><div class="section-title">Welcome</div><div class="section-line"></div></div>
+  <div class="couple-photos-row">
+    <div class="couple-photo-wrap">
+      <div class="couple-photo" style="cursor:default;">
+        <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="#7a6050" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" style="opacity:.35"><path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"/><circle cx="12" cy="13" r="4"/></svg>
       </div>
+      <div class="couple-photo-name">Ogrimina</div>
     </div>
-    <div class="event-card event-card-reception">
-      <div class="event-card-overlay">
-        <div class="event-label" style="color:#e8ddd4;">Reception</div>
-        <div class="event-name" style="color:#fff;">Reception</div>
-        <div class="event-detail" style="color:#e8ddd4;">
-          3:00 PM &ndash; 11:00 PM<br><br>
-          Timmy in the Woods<br>
-          <a class="event-link" style="color:#e8ddd4;" href="https://maps.google.com/?q=3+Mount+Everest+Avenue,+Golden+Hills+Subdivision,+Antipolo,+Rizal+1870,+Philippines" target="_blank">3 Mount Everest Avenue, Golden Hills Subdivision, Antipolo, Rizal 1870, Philippines</a><br><br>
-          <span class="event-note" style="color:#d4c9bf;">Please see attire guide for attire suggestions.</span>
-        </div>
-        <div class="event-btn-row">
-          <a class="event-btn" style="background:rgba(255,255,255,0.15);border:1px solid rgba(255,255,255,0.6);color:#fff;backdrop-filter:blur(4px);" href="https://maps.google.com/?q=3+Mount+Everest+Avenue,+Golden+Hills+Subdivision,+Antipolo,+Rizal+1870,+Philippines" target="_blank">Map</a>
-          <a class="event-btn event-btn-outline" style="background:transparent;border:1px solid rgba(255,255,255,0.6);color:#fff;" href="https://calendar.google.com/calendar/render?action=TEMPLATE&text=Isabel+%26+Joey+Wedding+Reception&dates=20260718T070000Z/20260718T150000Z&location=3+Mount+Everest+Avenue,+Golden+Hills+Subdivision,+Antipolo,+Rizal+1870" target="_blank">Add to Calendar</a>
-        </div>
+    <div class="couple-photo-wrap">
+      <div class="couple-photo" style="cursor:default;">
+        <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="#7a6050" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" style="opacity:.35"><path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"/><circle cx="12" cy="13" r="4"/></svg>
       </div>
+      <div class="couple-photo-name">Clemen</div>
     </div>
-  </section>
+  </div>
+  <p class="body-text"><span>We are so grateful to share this beautiful milestone with the people we love most. We hope you will join us in celebrating our union surrounded by joy, laughter, and love.</span><br><br><span>Please scroll through to find all the details about our special day — from schedule and travel tips to registry and RSVPs.</span><em>"For all the days along the way."</em></p>
+</section>
 
-  <div class="section-sep"></div>
+<div class="section-sep"></div>
 
-  <!-- TRAVEL -->
-  <section id="travel" class="section">
-    <div class="section-divider-wrap">
-      <div class="section-title">Travel</div>
-      <div class="section-line"></div>
-    </div>
-    <div class="travel-card" style="text-align:center;">
-      <svg width="48" height="48" viewBox="0 0 48 48" fill="none" stroke="#7a6050" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" style="margin-bottom:12px;"><polyline points="6,22 24,6 42,22"/><rect x="10" y="22" width="28" height="20" rx="1"/><rect x="18" y="30" width="12" height="12" rx="1"/><line x1="10" y1="22" x2="10" y2="42"/><line x1="38" y1="22" x2="38" y2="42"/></svg>
-      <div class="travel-label">House or Rental</div>
-      <div class="travel-name">Tobi's Escape</div>
-      <div class="travel-detail">Ponderosa Heights Lt1 Blk 5, Antipolo, Calabarzon 1870, Philippines</div>
-      <div class="event-btn-row">
-        <a class="event-btn" href="https://maps.google.com/?q=Ponderosa+Heights+Lt1+Blk+5+Antipolo+Calabarzon+1870+Philippines" target="_blank">Map</a>
-      </div>
-    </div>
-  </section>
+<section id="schedule" class="section">
+  <div class="section-divider-wrap"><div class="section-title">Schedule</div><div class="section-line"></div></div>
+  <div class="event-date-header">Saturday, July 18, 2026</div>
+  <div class="event-card">
+    <div class="event-label">Ceremony</div>
+    <div class="event-name">Seminary Parish of Our Lady of the Rosary of Manaoag in Antipolo</div>
+    <div class="event-detail">11:00 AM – 1:00 PM<br><a class="event-link" href="https://maps.google.com/?q=Sitio+Oreta,+Antipolo,+Rizal+1870,+Philippines" target="_blank">Sitio Oreta, Antipolo, Rizal 1870, Philippines</a><span class="event-note">Please make sure to have a cover-up. Guests who wear revealing clothes will not be allowed inside the church.</span></div>
+    <div class="event-btn-row"><a class="event-btn" href="https://maps.google.com/?q=Sitio+Oreta,+Antipolo,+Rizal+1870,+Philippines" target="_blank">Map</a><a class="event-btn event-btn-outline" href="https://calendar.google.com/calendar/render?action=TEMPLATE&text=Ogrimina+%26+Clemen+Wedding+Ceremony&location=Sitio%20Oreta%2C%20Antipolo%2C%20Rizal%201870%2C%20Philippines" target="_blank">Add to Calendar</a></div>
+  </div>
+  <div class="event-card">
+    <div class="event-label">Reception</div>
+    <div class="event-name">Timmy in the Woods</div>
+    <div class="event-detail">3:00 PM – 11:00 PM<br><a class="event-link" href="https://maps.google.com/?q=3+Mount+Everest+Avenue,+Golden+Hills+Subdivision,+Antipolo,+Rizal" target="_blank">3 Mount Everest Avenue, Golden Hills Subdivision, Antipolo, Rizal 1870, Philippines</a><span class="event-note">Please see attire guide for attire suggestions.</span></div>
+    <div class="event-btn-row"><a class="event-btn" href="https://maps.google.com/?q=3+Mount+Everest+Avenue,+Golden+Hills+Subdivision,+Antipolo,+Rizal" target="_blank">Map</a><a class="event-btn event-btn-outline" href="https://calendar.google.com/calendar/render?action=TEMPLATE&text=Ogrimina+%26+Clemen+Wedding+Reception&location=3%20Mount%20Everest%20Avenue%2C%20Golden%20Hills%20Subdivision%2C%20Antipolo%2C%20Rizal%201870%2C%20Philippines" target="_blank">Add to Calendar</a></div>
+  </div>
+</section>
 
-  <div class="section-sep"></div>
+<div class="section-sep"></div>
 
-  <!-- REGISTRY -->
-  <section id="registry" class="section">
-    <div class="section-divider-wrap">
-      <div class="section-title">Registry</div>
-      <div class="section-line"></div>
-    </div>
-    <p class="registry-intro">
-      Your presence is the greatest gift of all. But if you would like to give, we have registered at a few of our favorite places.
-    </p>
-    <div class="registry-grid">
-      <div class="registry-card">
-        <div class="registry-store">Rustan's</div>
-        <div class="registry-sub">Home &amp; Lifestyle</div>
-      </div>
-      <div class="registry-card">
-        <div class="registry-store">S&amp;R Home</div>
-        <div class="registry-sub">Kitchen &amp; Living</div>
-      </div>
-      <div class="registry-card">
-        <div class="registry-store">Zola</div>
-        <div class="registry-sub">Online Registry</div>
-      </div>
-      <div class="registry-card">
-        <div class="registry-store">Cash Fund</div>
-        <div class="registry-sub">Honeymoon &amp; Beyond</div>
-      </div>
-    </div>
-  </section>
+<section id="travel" class="section">
+  <div class="section-divider-wrap"><div class="section-title">Travel</div><div class="section-line"></div></div>
+  <div class="travel-card">
+    <div class="travel-label">Accommodation</div>
+    <div class="travel-name">Tobi's Escape</div>
+    <div class="travel-detail">Ponderosa Heights Lt1 Blk 5, Antipolo, Calabarzon 1870, Philippines</div>
+    <div class="event-btn-row" style="justify-content:center;"><a class="event-btn" href="https://maps.google.com/?q=Ponderosa+Heights+Lt1+Blk+5+Antipolo+Calabarzon+1870+Philippines" target="_blank" style="max-width:200px;">View on Map</a></div>
+  </div>
+</section>
 
-  <div class="section-sep"></div>
+<div class="section-sep"></div>
 
-  <!-- WEDDING PARTY -->
-  <section id="party" class="section">
-    <div class="section-divider-wrap">
-      <div class="section-title">Wedding Party</div>
-      <div class="section-line"></div>
-    </div>
+<section id="registry" class="section">
+  <div class="section-divider-wrap"><div class="section-title">Registry</div><div class="section-line"></div></div>
+  <p class="registry-intro">Your presence is the greatest gift of all. But if you would like to give, we have registered at a few of our favorite places.</p>
+  <div class="registry-grid">
+    <div class="registry-card"><div class="registry-store">Rustan's</div><div class="registry-sub">Home &amp; Lifestyle</div></div>
+    <div class="registry-card"><div class="registry-store">S&amp;R Home</div><div class="registry-sub">Kitchen &amp; Living</div></div>
+    <div class="registry-card"><div class="registry-store">Zola</div><div class="registry-sub">Online Registry</div></div>
+    <div class="registry-card"><div class="registry-store">Cash Fund</div><div class="registry-sub">Honeymoon &amp; Beyond</div></div>
+  </div>
+</section>
 
-    <div class="party-group-label">The Couple</div>
-    <div class="party-group">
+<div class="section-sep"></div>
+
+<section id="party" class="section">
+  <div class="section-divider-wrap"><div class="section-title">Wedding Party</div><div class="section-line"></div></div>
+
+  <div class="party-group-label">The Couple</div>
+  <div class="party-group">
     <div class="party-member">
-      <div class="party-photo" onclick="this.querySelector('input').click()"><svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="#7a6050" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"/><circle cx="12" cy="13" r="4"/></svg><img alt="photo"><input type="file" accept="image/*" onchange="previewPhoto(this)"></div>
-      <div class="party-name">Maria Isabel Ogrimina</div>
-      <div class="party-role">Bride</div>
+      <div class="party-photo" style="cursor:default;"><svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="#7a6050" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" style="opacity:.35"><path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"/><circle cx="12" cy="13" r="4"/></svg></div>
+      <div class="party-name">Maria Isabel Ogrimina</div><div class="party-role">Bride</div>
     </div>
     <div class="party-member">
-      <div class="party-photo" onclick="this.querySelector('input').click()"><svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="#7a6050" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"/><circle cx="12" cy="13" r="4"/></svg><img alt="photo"><input type="file" accept="image/*" onchange="previewPhoto(this)"></div>
-      <div class="party-name">Joey Clemen</div>
-      <div class="party-role">Groom</div>
+      <div class="party-photo" style="cursor:default;"><svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="#7a6050" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" style="opacity:.35"><path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"/><circle cx="12" cy="13" r="4"/></svg></div>
+      <div class="party-name">Joey Clemen</div><div class="party-role">Groom</div>
     </div>
-    </div>
+  </div>
 
-    <div class="party-group-label">Principal Sponsors</div>
-    <div class="party-group">
+  <div class="party-group-label">Principal Sponsors</div>
+  <div class="party-group">
     <div class="party-member">
-      <div class="party-photo" onclick="this.querySelector('input').click()"><svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="#7a6050" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"/><circle cx="12" cy="13" r="4"/></svg><img alt="photo"><input type="file" accept="image/*" onchange="previewPhoto(this)"></div>
-      <div class="party-name">Freya Naglak</div>
-      <div class="party-role">Matron of Honor</div>
+      <div class="party-photo" style="cursor:default;"><svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="#7a6050" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" style="opacity:.35"><path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"/><circle cx="12" cy="13" r="4"/></svg></div>
+      <div class="party-name">Freya Naglak</div><div class="party-role">Matron of Honor</div>
     </div>
     <div class="party-member">
-      <div class="party-photo" onclick="this.querySelector('input').click()"><svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="#7a6050" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"/><circle cx="12" cy="13" r="4"/></svg><img alt="photo"><input type="file" accept="image/*" onchange="previewPhoto(this)"></div>
-      <div class="party-name">Aljun Welba</div>
-      <div class="party-role">Best Man</div>
+      <div class="party-photo" style="cursor:default;"><svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="#7a6050" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" style="opacity:.35"><path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"/><circle cx="12" cy="13" r="4"/></svg></div>
+      <div class="party-name">Aljun Welba</div><div class="party-role">Best Man</div>
     </div>
-    </div>
+  </div>
 
-    <div class="party-group-label">Bridesmaids</div>
-    <div class="party-group">
-    <div class="party-member">
-      <div class="party-photo" onclick="this.querySelector('input').click()"><svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="#7a6050" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"/><circle cx="12" cy="13" r="4"/></svg><img alt="photo"><input type="file" accept="image/*" onchange="previewPhoto(this)"></div>
-      <div class="party-name">Maria Andrea Ogrimina</div>
-      <div class="party-role">Bridesmaid</div>
-    </div>
-    <div class="party-member">
-      <div class="party-photo" onclick="this.querySelector('input').click()"><svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="#7a6050" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"/><circle cx="12" cy="13" r="4"/></svg><img alt="photo"><input type="file" accept="image/*" onchange="previewPhoto(this)"></div>
-      <div class="party-name">Maria Paula Ogrimina</div>
-      <div class="party-role">Bridesmaid</div>
-    </div>
-    <div class="party-member">
-      <div class="party-photo" onclick="this.querySelector('input').click()"><svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="#7a6050" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"/><circle cx="12" cy="13" r="4"/></svg><img alt="photo"><input type="file" accept="image/*" onchange="previewPhoto(this)"></div>
-      <div class="party-name">Chriselle Joy Diaz</div>
-      <div class="party-role">Bridesmaid</div>
-    </div>
-    <div class="party-member">
-      <div class="party-photo" onclick="this.querySelector('input').click()"><svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="#7a6050" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"/><circle cx="12" cy="13" r="4"/></svg><img alt="photo"><input type="file" accept="image/*" onchange="previewPhoto(this)"></div>
-      <div class="party-name">Suchi Taruballes</div>
-      <div class="party-role">Bridesmaid</div>
-    </div>
-    <div class="party-member">
-      <div class="party-photo" onclick="this.querySelector('input').click()"><svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="#7a6050" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"/><circle cx="12" cy="13" r="4"/></svg><img alt="photo"><input type="file" accept="image/*" onchange="previewPhoto(this)"></div>
-      <div class="party-name">Renilyn Dayao</div>
-      <div class="party-role">Bridesmaid</div>
-    </div>
-    </div>
+  <div class="party-group-label">Bridesmaids</div>
+  <div class="party-group">
+    <div class="party-member"><div class="party-photo" style="cursor:default;"><svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="#7a6050" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" style="opacity:.35"><path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"/><circle cx="12" cy="13" r="4"/></svg></div><div class="party-name">Maria Andrea Ogrimina</div><div class="party-role">Bridesmaid</div></div>
+    <div class="party-member"><div class="party-photo" style="cursor:default;"><svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="#7a6050" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" style="opacity:.35"><path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"/><circle cx="12" cy="13" r="4"/></svg></div><div class="party-name">Maria Paula Ogrimina</div><div class="party-role">Bridesmaid</div></div>
+    <div class="party-member"><div class="party-photo" style="cursor:default;"><svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="#7a6050" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" style="opacity:.35"><path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"/><circle cx="12" cy="13" r="4"/></svg></div><div class="party-name">Chriselle Joy Diaz</div><div class="party-role">Bridesmaid</div></div>
+    <div class="party-member"><div class="party-photo" style="cursor:default;"><svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="#7a6050" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" style="opacity:.35"><path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"/><circle cx="12" cy="13" r="4"/></svg></div><div class="party-name">Suchi Taruballes</div><div class="party-role">Bridesmaid</div></div>
+    <div class="party-member"><div class="party-photo" style="cursor:default;"><svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="#7a6050" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" style="opacity:.35"><path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"/><circle cx="12" cy="13" r="4"/></svg></div><div class="party-name">Renilyn Dayao</div><div class="party-role">Bridesmaid</div></div>
+  </div>
 
-    <div class="party-group-label">Little Ones</div>
-    <div class="party-group">
-    <div class="party-member">
-      <div class="party-photo" onclick="this.querySelector('input').click()"><svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="#7a6050" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"/><circle cx="12" cy="13" r="4"/></svg><img alt="photo"><input type="file" accept="image/*" onchange="previewPhoto(this)"></div>
-      <div class="party-name">Isla Kiselle Taruballes</div>
-      <div class="party-role">Flower Girl</div>
-    </div>
-    <div class="party-member">
-      <div class="party-photo" onclick="this.querySelector('input').click()"><svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="#7a6050" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"/><circle cx="12" cy="13" r="4"/></svg><img alt="photo"><input type="file" accept="image/*" onchange="previewPhoto(this)"></div>
-      <div class="party-name">Aaliyah Joelene Labrador</div>
-      <div class="party-role">Flower Girl</div>
-    </div>
-    <div class="party-member">
-      <div class="party-photo" onclick="this.querySelector('input').click()"><svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="#7a6050" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"/><circle cx="12" cy="13" r="4"/></svg><img alt="photo"><input type="file" accept="image/*" onchange="previewPhoto(this)"></div>
-      <div class="party-name">Kristofer Clemen</div>
-      <div class="party-role">Ring Bearer</div>
-    </div>
-    </div>
+  <div class="party-group-label">Little Ones</div>
+  <div class="party-group">
+    <div class="party-member"><div class="party-photo" style="cursor:default;"><svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="#7a6050" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" style="opacity:.35"><path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"/><circle cx="12" cy="13" r="4"/></svg></div><div class="party-name">Isla Kiselle Taruballes</div><div class="party-role">Flower Girl</div></div>
+    <div class="party-member"><div class="party-photo" style="cursor:default;"><svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="#7a6050" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" style="opacity:.35"><path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"/><circle cx="12" cy="13" r="4"/></svg></div><div class="party-name">Aaliyah Joelene Labrador</div><div class="party-role">Flower Girl</div></div>
+    <div class="party-member"><div class="party-photo" style="cursor:default;"><svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="#7a6050" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" style="opacity:.35"><path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"/><circle cx="12" cy="13" r="4"/></svg></div><div class="party-name">Kristofer Clemen</div><div class="party-role">Ring Bearer</div></div>
+  </div>
 
-    <div class="party-group-label">Parents of the Bride</div>
-    <div class="party-group">
-    <div class="party-member">
-      <div class="party-photo" onclick="this.querySelector('input').click()"><svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="#7a6050" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"/><circle cx="12" cy="13" r="4"/></svg><img alt="photo"><input type="file" accept="image/*" onchange="previewPhoto(this)"></div>
-      <div class="party-name">Fredilyn Ogrimina</div>
-      <div class="party-role">Mother of the Bride</div>
+  <div class="party-group-label">Parents of the Bride</div>
+  <div class="party-group">
+    <div class="party-member"><div class="party-photo" style="cursor:default;"><svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="#7a6050" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" style="opacity:.35"><path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"/><circle cx="12" cy="13" r="4"/></svg></div><div class="party-name">Fredilyn Ogrimina</div><div class="party-role">Mother of the Bride</div></div>
+    <div class="party-member"><div class="party-photo" style="cursor:default;"><svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="#7a6050" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" style="opacity:.35"><path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"/><circle cx="12" cy="13" r="4"/></svg></div><div class="party-name">Sonny Ogrimina</div><div class="party-role">Father of the Bride</div></div>
+  </div>
+
+  <div class="party-group-label">Parents of the Groom</div>
+  <div class="party-group">
+    <div class="party-member"><div class="party-photo" style="cursor:default;"><svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="#7a6050" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" style="opacity:.35"><path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"/><circle cx="12" cy="13" r="4"/></svg></div><div class="party-name">Delia Clemen</div><div class="party-role">Mother of the Groom</div></div>
+    <div class="party-member"><div class="party-photo" style="cursor:default;"><svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="#7a6050" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" style="opacity:.35"><path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"/><circle cx="12" cy="13" r="4"/></svg></div><div class="party-name">Ambrosio Clemen</div><div class="party-role">Father of the Groom</div></div>
+  </div>
+</section>
+
+<div class="section-sep"></div>
+
+<section id="gallery" class="section">
+  <div class="section-divider-wrap"><div class="section-title">Gallery</div><div class="section-line"></div></div>
+  <div class="gallery-grid"><div class="gallery-cell" style="grid-column:1/-1;aspect-ratio:unset;padding:32px;font-size:13px;">Photos coming soon.</div></div>
+</section>
+
+<div class="section-sep"></div>
+
+<section id="faqs" class="section">
+  <div class="section-divider-wrap"><div class="section-title">FAQs</div><div class="section-line"></div></div>
+  <div class="faq-item"><div class="faq-q">What is the dress code?</div><div class="faq-a">Formal attire. Ladies are encouraged to wear blush, sage, or ivory. Gentlemen in barong tagalog or suit.</div></div>
+  <div class="faq-item"><div class="faq-q">Are children welcome?</div><div class="faq-a">We love your little ones! Children above 5 years old are welcome at both the ceremony and reception.</div></div>
+  <div class="faq-item"><div class="faq-q">When is the RSVP deadline?</div><div class="faq-a">Please RSVP by May 30, 2026 so we can confirm final headcount with our caterer.</div></div>
+  <div class="faq-item"><div class="faq-q">Can I take photos during the ceremony?</div><div class="faq-a">We are having an unplugged ceremony — please keep phones away during the Mass. The reception is fully photo-friendly!</div></div>
+</section>
+
+<div class="section-sep"></div>
+
+<section id="rsvp" class="section">
+  <div class="section-divider-wrap"><div class="section-title">RSVP</div><div class="section-line"></div></div>
+  <div id="rsvpForm" style="max-width:520px;">
+    <label class="rsvp-label">Pangalan *</label>
+    <input class="rsvp-input" type="text" id="rsvpName" placeholder="Inyong pangalan"/>
+    <label class="rsvp-label">Email *</label>
+    <input class="rsvp-input" type="email" id="rsvpEmail" placeholder="email@example.com"/>
+    <label class="rsvp-label">Numero ng Telepono *</label>
+    <input class="rsvp-input" type="tel" id="rsvpPhone" placeholder="+63"/>
+    <label class="rsvp-label">Mensahe sa Magkasintahan</label>
+    <textarea class="rsvp-textarea" id="rsvpMessage" placeholder="Inyong mensahe..."></textarea>
+    <label class="rsvp-label">Makakadalo ka ba? *</label>
+    <div class="rsvp-radio-group">
+      <label class="rsvp-radio-label"><input type="radio" name="attend" value="yes"> Oo, makakadalo ako.</label>
+      <label class="rsvp-radio-label"><input type="radio" name="attend" value="no"> Pasensya, hindi ako makakadalo.</label>
     </div>
-    <div class="party-member">
-      <div class="party-photo" onclick="this.querySelector('input').click()"><svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="#7a6050" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"/><circle cx="12" cy="13" r="4"/></svg><img alt="photo"><input type="file" accept="image/*" onchange="previewPhoto(this)"></div>
-      <div class="party-name">Sonny Ogrimina</div>
-      <div class="party-role">Father of the Bride</div>
-    </div>
-    </div>
+    <button class="rsvp-btn" onclick="submitRsvp()">Submit RSVP</button>
+  </div>
+  <div class="rsvp-success" id="rsvpSuccess">
+    <div class="check">Thank you</div><p>Your RSVP has been received.</p>
+  </div>
+</section>
 
-    <div class="party-group-label">Parents of the Groom</div>
-    <div class="party-group">
-    <div class="party-member">
-      <div class="party-photo" onclick="this.querySelector('input').click()"><svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="#7a6050" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"/><circle cx="12" cy="13" r="4"/></svg><img alt="photo"><input type="file" accept="image/*" onchange="previewPhoto(this)"></div>
-      <div class="party-name">Delia Clemen</div>
-      <div class="party-role">Mother of the Groom</div>
-    </div>
-    <div class="party-member">
-      <div class="party-photo" onclick="this.querySelector('input').click()"><svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="#7a6050" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"/><circle cx="12" cy="13" r="4"/></svg><img alt="photo"><input type="file" accept="image/*" onchange="previewPhoto(this)"></div>
-      <div class="party-name">Ambrosio Clemen</div>
-      <div class="party-role">Father of the Groom</div>
-    </div>
-    </div>
+<footer>Ogrimina &amp; Clemen &middot; July 18, 2026</footer>
 
-  </section>
+<script>
+/* ===== COUNTDOWN ===== */
+const _wdate='2026-07-18T11:00:00+08:00';
+function updateCountdown(){
+  const w=new Date(_wdate).getTime(),d=w-Date.now();
+  if(d<=0){['days','hours','mins','secs'].forEach(u=>document.getElementById('cd-'+u).textContent='0');return;}
+  document.getElementById('cd-days').textContent=Math.floor(d/86400000);
+  document.getElementById('cd-hours').textContent=Math.floor((d%86400000)/3600000);
+  document.getElementById('cd-mins').textContent=Math.floor((d%3600000)/60000);
+  document.getElementById('cd-secs').textContent=Math.floor((d%60000)/1000);
+}
+updateCountdown();setInterval(updateCountdown,1000);
 
-  <div class="section-sep"></div>
+/* ===== DOT NAV + SCROLL OBSERVER ===== */
+const sids=['hero','welcome','schedule','travel','registry','party','gallery','faqs','rsvp'];
+const dots=document.querySelectorAll('.dot-nav a');
+const obs=new IntersectionObserver(e=>{e.forEach(en=>{if(en.isIntersecting)en.target.classList.add('visible');});},{threshold:.12});
+document.querySelectorAll('.section').forEach(s=>obs.observe(s));
+const dobs=new IntersectionObserver(e=>{e.forEach(en=>{if(en.isIntersecting){const id=sids.indexOf(en.target.id);dots.forEach((d,i)=>d.classList.toggle('active',i===id));}});},{threshold:.4});
+document.querySelectorAll('[id]').forEach(s=>{if(sids.includes(s.id))dobs.observe(s);});
 
-  <!-- GALLERY -->
-  <section id="gallery" class="section">
-    <div class="section-divider-wrap">
-      <div class="section-title">Gallery</div>
-      <div class="section-line"></div>
-    </div>
-    <p style="font-size:13px;color:#9a8070;margin-bottom:24px;font-style:italic;">
-      Photos coming soon. Check back after our engagement shoot!
-    </p>
-    <div class="gallery-grid">
-      <div class="gallery-cell">soon</div>
-      <div class="gallery-cell">soon</div>
-      <div class="gallery-cell">soon</div>
-      <div class="gallery-cell">soon</div>
-      <div class="gallery-cell">soon</div>
-      <div class="gallery-cell">soon</div>
-    </div>
-  </section>
+/* ===== MUSIC ===== */
+function toggleMusic(){
+  const a=document.getElementById('bgMusic');
+  if(!a.src&&!a.querySelector('source').src)return;
+  a.volume=.1;
+  const btn=document.getElementById('musicBtn'),ic=document.getElementById('musicIcon');
+  if(a.paused){
+    a.play().then(()=>{btn.classList.add('playing');ic.innerHTML='<rect x="6" y="4" width="4" height="16" rx="1"/><rect x="14" y="4" width="4" height="16" rx="1"/>';}).catch(()=>{});
+  }else{
+    a.pause();btn.classList.remove('playing');ic.innerHTML='<polygon points="5 3 19 12 5 21 5 3"/>';
+  }
+}
 
-  <div class="section-sep"></div>
+/* ===== RSVP ===== */
+function submitRsvp(){
+  const n=document.getElementById('rsvpName').value.trim(),
+        e=document.getElementById('rsvpEmail').value.trim(),
+        p=document.getElementById('rsvpPhone').value.trim(),
+        a=document.querySelector('input[name="attend"]:checked');
+  if(!n||!e||!p||!a){alert('Pakiusap punan ang lahat ng required na fields.');return;}
+  document.getElementById('rsvpForm').style.display='none';
+  document.getElementById('rsvpSuccess').style.display='block';
+}
 
-  <!-- FAQs -->
-  <section id="faqs" class="section">
-    <div class="section-divider-wrap">
-      <div class="section-title">FAQs</div>
-      <div class="section-line"></div>
-    </div>
-    <div class="faq-item">
-      <div class="faq-q">What is the dress code?</div>
-      <div class="faq-a">Formal attire. Ladies are encouraged to wear blush, sage, or ivory. Gentlemen in barong tagalog or suit.</div>
-    </div>
-    <div class="faq-item">
-      <div class="faq-q">Are children welcome?</div>
-      <div class="faq-a">We love your little ones! Children above 5 years old are welcome at both the ceremony and reception.</div>
-    </div>
-    <div class="faq-item">
-      <div class="faq-q">When is the RSVP deadline?</div>
-      <div class="faq-a">Please RSVP by May 30, 2026 so we can confirm final headcount with our caterer.</div>
-    </div>
-    <div class="faq-item">
-      <div class="faq-q">Can I take photos during the ceremony?</div>
-      <div class="faq-a">We are having an unplugged ceremony — please keep phones away during the Mass. The reception is fully photo-friendly!</div>
-    </div>
-  </section>
+/* ================================================================
+   INTRO SEQUENCE
+   Step 1: Floating envelope -> click
+   Step 2: Video plays (auto-ends or skip)
+   Step 3: Curtain pulls apart + light beam -> landing page
+   ================================================================ */
+document.body.style.overflow='hidden';
 
-  <div class="section-sep"></div>
+function openEnvelope(){
+  const envStage=document.getElementById('envelope-stage');
+  const envWrap=document.getElementById('envelope-wrap');
 
-  <!-- RSVP -->
-  <section id="rsvp" class="section">
-    <div class="section-divider-wrap">
-      <div class="section-title">RSVP</div>
-      <div class="section-line"></div>
-    </div>
-    <div class="rsvp-form" id="rsvpForm">
-      <label class="rsvp-label">Pangalan: <span class="required">*</span></label>
-      <input class="rsvp-input" type="text" placeholder="" id="rsvpName" />
+  // Fly envelope upward and fade
+  envWrap.style.transition='transform .8s cubic-bezier(.36,.07,.19,.97), opacity .6s .3s';
+  envWrap.style.transform='translateY(-160px) rotate(12deg) scale(.7)';
+  envWrap.style.opacity='0';
 
-      <label class="rsvp-label">Email: <span class="required">*</span></label>
-      <input class="rsvp-input" type="email" placeholder="" id="rsvpEmail" />
+  setTimeout(function(){
+    envStage.style.transition='opacity .5s';
+    envStage.style.opacity='0';
+    envStage.style.pointerEvents='none';
+  },600);
 
-      <label class="rsvp-label">Numero ng Telepono: <span class="required">*</span></label>
-      <input class="rsvp-input" type="tel" placeholder="" id="rsvpPhone" />
+  setTimeout(showVideoStage, 900);
+}
 
-      <label class="rsvp-label">Mensahe sa Magkasintahan:</label>
-      <textarea class="rsvp-textarea" id="rsvpMessage"></textarea>
+function showVideoStage(){
+  const vs=document.getElementById('video-stage');
+  vs.classList.add('show');
+  const video=document.getElementById('prenup-video');
 
-      <label class="rsvp-label">Makakadalo ka ba? <span class="required">*</span></label>
-      <div class="rsvp-radio-group">
-        <label class="rsvp-radio-label">
-          <input type="radio" name="attend" value="yes" id="rsvpYes" />
-          Oo, makakadalo ako.
-        </label>
-        <label class="rsvp-radio-label">
-          <input type="radio" name="attend" value="no" id="rsvpNo" />
-          Pasensya, hindi ako makakadalo.
-        </label>
-      </div>
+  video.addEventListener('ended',function(){
+    setTimeout(skipToReveal,600);
+  });
 
-      <button class="rsvp-btn" onclick="submitRsvp()">Submit</button>
-    </div>
-    <div class="rsvp-success" id="rsvpSuccess">
-      <div class="check">Thank you</div>
-      <p>Your RSVP has been received.</p>
-    </div>
-  </section>
+  const src=video.querySelector('source')?video.querySelector('source').getAttribute('src'):'';
+  if(!src||src===''){
+    const ph=document.createElement('div');
+    ph.style.cssText='position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);text-align:center;color:rgba(255,255,255,.6);font-family:Cormorant Garamond,serif;font-size:clamp(15px,4vw,20px);font-style:italic;pointer-events:none;line-height:1.8;width:90%;';
+    ph.innerHTML='Your prenup video will appear here<br><span style="font-size:clamp(11px,2.5vw,13px);letter-spacing:.15em;font-style:normal;opacity:.7;">Replace the &lt;source src=""&gt; with your video URL</span>';
+    vs.appendChild(ph);
+    setTimeout(skipToReveal,4500);
+  }
+}
 
-  <footer>Isabel &amp; Joey &middot; July 18, 2026</footer>
+function skipToReveal(){
+  const vs=document.getElementById('video-stage');
+  const video=document.getElementById('prenup-video');
+  video.pause();
+  vs.style.transition='opacity .5s';
+  vs.style.opacity='0';
+  setTimeout(showCurtainReveal,500);
+}
 
-  <script>
-    // ── COUNTDOWN ──
-    function updateCountdown() {
-      const wedding = new Date('2026-07-18T11:00:00+08:00').getTime();
-      const now = Date.now();
-      const diff = wedding - now;
+function showCurtainReveal(){
+  const cs=document.getElementById('curtain-stage');
+  const leftPanel=document.querySelector('.curtain-left');
+  const rightPanel=document.querySelector('.curtain-right');
+  const overlay=document.getElementById('intro-overlay');
 
-      if (diff <= 0) {
-        document.getElementById('cd-days').textContent = '0';
-        document.getElementById('cd-hours').textContent = '0';
-        document.getElementById('cd-mins').textContent = '0';
-        document.getElementById('cd-secs').textContent = '0';
-        return;
-      }
+  cs.style.opacity='1';
+  cs.style.pointerEvents='all';
 
-      const days  = Math.floor(diff / (1000 * 60 * 60 * 24));
-      const hours = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-      const mins  = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
-      const secs  = Math.floor((diff % (1000 * 60)) / 1000);
+  setTimeout(function(){
+    leftPanel.classList.add('open-left');
+    rightPanel.classList.add('open-right');
+    cs.classList.add('light-on');
+  },600);
 
-      document.getElementById('cd-days').textContent  = days;
-      document.getElementById('cd-hours').textContent = hours;
-      document.getElementById('cd-mins').textContent  = mins;
-      document.getElementById('cd-secs').textContent  = secs;
+  setTimeout(function(){
+    overlay.style.transition='opacity 1.2s ease';
+    overlay.style.opacity='0';
+    document.body.style.overflow='auto';
+  },2600);
+
+  setTimeout(function(){
+    overlay.classList.add('hidden');
+    document.getElementById('dotNav').style.opacity='1';
+    document.querySelector('.music-btn').style.opacity='1';
+    var hero=document.getElementById('hero');
+    if(hero){
+      hero.style.transform='scale(1.04)';
+      hero.style.transition='transform 1.2s cubic-bezier(.22,1,.36,1)';
+      setTimeout(function(){hero.style.transform='scale(1)';},50);
     }
-
-    updateCountdown();
-    setInterval(updateCountdown, 1000);
-
-    // ── SCROLL FADE-IN ──
-    const sections = document.querySelectorAll('.section');
-    const dots = document.querySelectorAll('.dot-nav a');
-
-    const observer = new IntersectionObserver((entries) => {
-      entries.forEach(entry => {
-        if (entry.isIntersecting) entry.target.classList.add('visible');
-      });
-    }, { threshold: 0.12 });
-
-    sections.forEach(s => observer.observe(s));
-
-    // ── DOT NAV ──
-    const sectionIds = ['home','schedule','travel','registry','party','gallery','faqs','rsvp'];
-
-    const dotObserver = new IntersectionObserver((entries) => {
-      entries.forEach(entry => {
-        if (entry.isIntersecting) {
-          const idx = sectionIds.indexOf(entry.target.id);
-          dots.forEach((d, i) => d.classList.toggle('active', i === idx));
-        }
-      });
-    }, { threshold: 0.4 });
-
-    sections.forEach(s => dotObserver.observe(s));
-
-    function previewPhoto(input) {
-      if (!input.files || !input.files[0]) return;
-      const reader = new FileReader();
-      reader.onload = function(e) {
-        const container = input.closest('.party-photo');
-        const img = container.querySelector('img');
-        const svg = container.querySelector('svg');
-        img.src = e.target.result;
-        img.style.display = 'block';
-        if (svg) svg.style.display = 'none';
-      };
-      reader.readAsDataURL(input.files[0]);
-    }
-
-    // ── RSVP ──
-    function submitRsvp() {
-      const name = document.getElementById('rsvpName').value.trim();
-      const email = document.getElementById('rsvpEmail').value.trim();
-      const phone = document.getElementById('rsvpPhone').value.trim();
-      const attend = document.querySelector('input[name="attend"]:checked');
-      if (!name || !email || !phone || !attend) {
-        alert('Pakiusap punan ang lahat ng required na fields.');
-        return;
-      }
-      document.getElementById('rsvpForm').style.display = 'none';
-      document.getElementById('rsvpSuccess').style.display = 'block';
-    }
-
-    // ── MUSIC ──
-    function toggleMusic() {
-      const audio = document.getElementById('bgMusic');
-      audio.volume = 0.1;
-      const btn   = document.getElementById('musicBtn');
-      const icon  = document.getElementById('musicIcon');
-
-      if (audio.paused) {
-        audio.play().then(() => {
-          btn.classList.add('playing');
-          // Switch to pause icon
-          icon.innerHTML = '<rect x="6" y="4" width="4" height="16" rx="1"/><rect x="14" y="4" width="4" height="16" rx="1"/>';
-        }).catch(() => {
-          // Browser blocked — do nothing silently
-        });
-      } else {
-        audio.pause();
-        btn.classList.remove('playing');
-        // Switch back to play icon
-        icon.innerHTML = '<polygon points="5 3 19 12 5 21 5 3"/>';
-      }
-    }
-  </script>
+  },3900);
+}
+</script>
 </body>
 </html>
