@@ -23,7 +23,7 @@
       position: fixed;
       inset: 0;
       z-index: 9999;
-      background-image: url('background.jpg');
+      background-image: url('images/background3.JPG');
       background-size: cover;
       background-position: center;
       background-color: #1a0f08;
@@ -52,6 +52,7 @@
       align-items: center;
       gap: 28px;
       animation: envFadeIn 1.2s ease forwards;
+      margin-top: 130px;
     }
 
     @keyframes envFadeIn {
@@ -233,7 +234,7 @@
       display: flex;
       align-items: center;
       justify-content: center;
-      background: url('background.jpg') center/cover no-repeat;
+      background: url('images/background3.JPG') center/cover no-repeat;
       background-color: #f0ebe3;
       position: relative;
       text-align: center;
@@ -250,8 +251,12 @@
     .hero-content {
       position: relative;
       z-index: 2;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 0;
+      margin-top: 120px;
     }
-    .hero-content { display: flex; flex-direction: column; align-items: center; gap: 0; }
     .couple-names {
       font-family: 'Cormorant Garamond', serif;
       font-size: 56px;
@@ -376,7 +381,7 @@
     }
     .event-card:hover { border-color: #8b7060; }
     .event-card-ceremony {
-      background-image: url('seminary_parish.jpg');
+      background-image: url('images/seminary_parish.jpg');
       background-size: cover;
       background-position: center;
       border: none;
@@ -387,7 +392,7 @@
     }
     .event-card-ceremony:hover { border-color: transparent; }
     .event-card-reception {
-      background-image: url('timmy.jpg');
+      background-image: url('images/timmy.jpg');
       background-size: cover;
       background-position: center;
       border: none;
@@ -438,7 +443,7 @@
     }
     .travel-card:hover { border-color: #8b7060; }
     .travel-card-tobis {
-      background-image: url('tobis.jpg');
+      background-image: url('images/tobis.jpg');
       background-size: cover;
       background-position: center;
       border: none;
@@ -506,7 +511,6 @@
       font-size: 20px;
       font-weight: 400;
       letter-spacing: 0.08em;
-      text-transform: uppercase;
       color: #5c3d2e;
       margin-bottom: 6px;
       line-height: 1.3;
@@ -696,7 +700,7 @@
 
     <!-- BACKGROUND MUSIC -->
     <audio id="bgMusic" loop>
-      <source src="song.mp3" type="audio/mpeg">
+      <source src="music/song.mp3" type="audio/mpeg">
     </audio>
     <button id="musicBtn" onclick="toggleMusic()" title="Toggle music" style="
       position:fixed;bottom:24px;right:24px;z-index:300;width:42px;height:42px;
